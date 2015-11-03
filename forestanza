@@ -131,6 +131,7 @@ class ResponseParser:
 
 
 class GoogleTr:
+    AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0"
     def __init__(self):
         self.host = "translate.google.com"
         self.url = "http://" + self.host
@@ -142,11 +143,10 @@ class GoogleTr:
                 urlencode([('q', text), ('sl', sl), ('tl', tl), ('hl', hl)]) + '&tk')
 
     def _response(self, line):
-        headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0"}
-        post = self.url + self._make_req(line)
-        req = request.Request(url=post, headers=headers)
-        r = request.urlopen(req)
-        data = r.read().decode('utf-8')
+        link = self.url + self._make_req(line)
+        req = request.Request(url=link, headers={"User-Agent": GoogleTr.AGENT})
+        data = request.urlopen(req).read().decode('utf-8')
+        ## Fill empty array items with 'null' to obtain valid JSON.
         return re.sub(r'(?<=,|\[)(?=,|\])', r'null', data)
 
     def translate(self, line):
