@@ -119,8 +119,8 @@ class ResponseParser:
             self.phonetics = str(data[0][-1][3])
 
             def sorted_as_origin(lexems):
-                def origin_order(lex):
-                    return lex[3][-1][-1] if isinstance(lex[3], list) else 65536
+                def origin_order(lex):  # ALT: on-last -- lex[3][-1][-1]
+                    return lex[3][0][0] if isinstance(lex[3], list) else 65536
                 return sorted(lexems, key=origin_order)
 
             lexems = sum(map(sorted_as_origin, self.syns_for_parts(data[5])), [])
