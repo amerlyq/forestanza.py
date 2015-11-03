@@ -10,3 +10,21 @@ SEE
 
 Read fb2
 	zcat "$1"|xsltproc /usr/local/bin/data/FB2_2_xhtml.xsl -|lynx -stdin -display_charset=UTF-8
+	: xsl you can get from fb2 offsite
+
+
+THINK
+	Export vim syntax highlighting to phone
+		hardcopy > ss.ps (no japanese) and then ps2pdf ss.ps
+		:OR :TOhtml and then make epub?
+	>[_] THINK Develop own plugin for vim with specific highlighting?
+		:= To eliminate necessity in votl and logically use some own keymaps.
+		:+ Then I could use python inside vim to regenerate and reload syntax files
+		Consider as the best idea, especially for ranobe translation process.
+
+
+DEV
+	[_] USE cfg/*.yml for common lexics and <ranobe>/*.yml for specific
+	[_] Generate vimrc from all yml cfgs into ~/.cache/forestanza.vim
+	[_] Load syntax by 'source forestanza.vim' inside local <ranobe>/.vimrc
+		: OR inside <ranobe>/ place script to launch: vim -c 'source ...'
