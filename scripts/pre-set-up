@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+# SEE
+#   https://pythonhosted.org/kitchen/api-text-display.html
+
+sudo pacman -S gawk curl python-lxml
+yaourt -S python3-kitchen
+# translate-shell

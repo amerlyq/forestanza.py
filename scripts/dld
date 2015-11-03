@@ -1,0 +1,41 @@
+#!/bin/bash -e
+
+# Arifureta RAW
+pf_link=http://ncode.syosetu.com/n8611bv
+
+ARGS="$@"
+dir=/tmp/ranobe
+mkdir -p $dir
+
+
+for i in 130; do
+
+    [[ "$ARGS" != -r ]] || rm $dir/${i}.*
+
+    hfl=$dir/${i}.html
+    sfl=$dir/${i}.src
+    dfl=$dir/${i}.dst
+    link=$pf_link/$i
+
+    printf "%d: %s\n" $i $link
+
+    [[ -f $hfl ]] || curl -A "Mozilla/5.0" -o $hfl $link
+
+    rm -f $sfl
+    [[ -f $sfl ]] || cat $hfl \
+        | awk '/^<\/div>/{p=0} {if(p){print}} /"novel_honbun"/{p=1}' \
+        | elinks -dump-width 65536 -dump \
+        | sed 's@[。！？]@&\n@g' \
+        > $sfl
+        # | perl -ne 's/^[\x09\x20\x{3000}]+//; printf("[%04d] %s",++$a, $_) if /./'
+        # | perl -CSDA -ne   -- to mitigate 'wide character...'
+        # | sed 's@<br\s*/>@@g; s@[。！？]@&\n@g' \
+
+    cat $sfl
+
+    [[ -f $dfl ]] || trans -verbose -no-theme -no-ansi \
+            -show-languages=n -show-prompt-message=n -indent 8 \
+            -sl ja -tl en -i $sfl -o $dfl
+
+    # curl -A "Mozilla/5.0"  'http://translate.google.com/translate_a/t?client=t&text=hello&hl=en&sl=en&tl=zh-CN&ie=UTF-8&oe=UTF-8&multires=1&prev=btn&ssel=0&tsel=0&sc=1' | sed 's/\[\[\["\([^"]*\).*/\1/'
+done

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim: set ts=2 sw=2 sts=2: fb2 -->
+<FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:l="http://www.w3.org/1999/xlink">
+  <description>
+    <title-info>
+      <genre>sf</genre>
+      <author>
+        <first-name>{author:s}</first-name>
+        <!-- <middle-name></middle-name> -->
+        <!-- <last-name></last-name> -->
+      </author>
+      <book-title>{title:s}</book-title>
+      <lang>ja</lang>
+      <annotation>
+        <p><strong>Formatted ranobe for reading in japanese</strong></p>
+      </annotation>
+      <!-- <coverpage> -->
+      <!--   <image l:href="#cover.png"/> -->
+      <!-- </coverpage> -->
+    </title-info>
+    <document-info>
+      <author>
+        <nickname>amerlyq</nickname>
+        <email>amerlyq@gmail.com</email>
+      </author>
+      <program-used>https://github.com/amerlyq/forestanza</program-used>
+      <date value="{date:s}">{fulldate:s}</date>
+      <!-- <id>GribUser_WarAndWorld_D49FHSH8l0HS5</id> -->
+      <version>1.0</version>
+    </document-info>
+  </description>
+  <body>
+    <!-- <title> -->
+    <!--   <p>{author:s}</p> -->
+    <!--   <p>{title:s}</p> -->
+    <!-- </title> -->
+    <!-- <image l:href="#cover.png"/> -->
+<!-- You need keep sections formatting by yourself! -->
+
+{sections:s}
+  </body>
+  <!-- <binary id="cover.png" content-type="image/png"> -->
+  <!--   {base64cover:s} -->
+  <!-- </binary> -->
+</FictionBook>
