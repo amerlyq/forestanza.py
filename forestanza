@@ -24,7 +24,7 @@ def progress_bar(i, n):
 # DEV TODO header for otl '0: > ...' -- move common parts in separate function.
 def dump_fb2_doc(author, title, secs):
     today = datetime.date.today()
-    path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'cfg', 'template.xml')
+    path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'cfg', 'template-fb2.xml')
     with open(path) as f:
         tmpl = str(f.read())
 
