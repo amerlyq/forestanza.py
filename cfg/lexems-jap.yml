@@ -1,0 +1,12 @@
+Pronouns:
+  color: 203
+  me:
+    words:
+      - [私, <%(watakusi|watasi|atasi)>, I]
+      - 俺
+      - [妾, <mekake>]
+  highlight:
+    color: 211
+    words: [ 奴, 達, 方 ]
+  you: [ 自身, [自分, <jibun>], お前等=, ご主人様 ]
+  they: [ 幼馴染, メンバー, こいつら=, 連中 ]
