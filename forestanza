@@ -12,9 +12,34 @@ from urllib import request
 from lxml import html
 from kitchen.text.display import textual_width_fill
 
+"""
+forestanza -- Translation assistance toolset to adapt foreign texts for reading
+              (negligible language proficiency).
+"""
 
-fl = {ext: '/tmp/arifureta-130.' + ext
-      for ext in ['html', 'src', 'otl', 'fb2', 'xml', 'req', 'rsp']}
+__appname__ = "forestanza"
+__version__ = "0.2.1"
+__licence__ = "GPL 3.0"
+__email__ = "amerlyq@gmail.com"
+__url__ = 'https://github.com/amerlyq/forestanza'
+
+
+class FileBundle:
+    TMPDIR = os.getenv('TMPDIR') or os.path.join('/tmp', os.getenv('USER'))
+    DSTDIR = os.path.join(TMPDIR, __appname__)
+    EXTENSIONS = ['html', 'src', 'otl', 'fb2', 'xml', 'req', 'rsp']
+
+    def __init__(self, src, name, chapter):
+        self.url = src.format(chapter)
+        self.name = name.format(chapter)
+        self.make_paths()
+
+    def make_paths(self):
+        if not os.path.exists(FileBundle.DSTDIR):
+            os.makedirs(FileBundle.DSTDIR)
+        dstbase = os.path.join(FileBundle.DSTDIR, self.name)
+        for ext in FileBundle.EXTENSIONS:
+            setattr(self, ext, dstbase + '.' + ext)
 
 
 def progress_bar(i, n):
@@ -156,42 +181,45 @@ class GoogleTr:
         return self._response(line)
 
 
-# Clean cache and all results
-if len(sys.argv) > 1 and sys.argv[1] == '-r':
-    for f in fl.values():
-        if os.path.isfile(f):
-            os.remove(f)
+if __name__ == '__main__':
+    fl = FileBundle('http://ncode.syosetu.com/n8611bv/{:d}',
+                    'arifureta-{:d}', 131)
 
-# NOTE: save_data() expanded to process get_page/extract only if no cache
-page = 'http://ncode.syosetu.com/n8611bv/130'
-if not os.path.exists(fl['html']):
-    with open(fl['html'], 'w') as f:
-        f.write(get_page(page))
+    # Clean cache and all results
+    if len(sys.argv) > 1 and sys.argv[1] == '-r':
+        for ext in fl.EXTENSIONS:
+            if os.path.isfile(getattr(fl, ext)):
+                os.remove(getattr(fl, ext))
 
-if not os.path.exists(fl['src']):
-    with open(fl['src'], 'w') as f:
-        f.write(extract_content(fl['html']))
+    # NOTE: save_data() expanded to process get_page/extract only if no cache
+    if not os.path.exists(fl.html):
+        with open(fl.html, 'w') as f:
+            f.write(get_page(fl.url))
 
-gt = GoogleTr()
-bCachedRsp = os.path.exists(fl['rsp'])
-with open(fl['rsp' if bCachedRsp else 'src'], 'r') as src:
-    lst = src.readlines()
+    if not os.path.exists(fl.src):
+        with open(fl.src, 'w') as f:
+            f.write(extract_content(fl.html))
 
-# Write main body
-with open(fl['otl'], 'w') as otl, open(fl['xml'], 'w') as xml:
-    for i, line in enumerate(lst):
-        if not bCachedRsp:
-            line = gt.translate(line)
-            with open(fl['rsp'], 'a') as rsp:
-                rsp.write(line + '\n')
+    gt = GoogleTr()
+    bCachedRsp = os.path.exists(fl.rsp)
+    with open(getattr(fl, 'rsp' if bCachedRsp else 'src'), 'r') as src:
+        lst = src.readlines()
 
-        sec = ResponseParser(line)
-        xml.write(dump_fb2_section(i+1, sec))
-        otl.write(dump_otl_section(i+1, sec))
-        progress_bar(i, len(lst))
+    # Write main body
+    with open(fl.otl, 'w') as otl, open(fl.xml, 'w') as xml:
+        for i, line in enumerate(lst):
+            if not bCachedRsp:
+                line = gt.translate(line)
+                with open(fl.rsp, 'a') as rsp:
+                    rsp.write(line + '\n')
+
+            sec = ResponseParser(line)
+            xml.write(dump_fb2_section(i+1, sec))
+            otl.write(dump_otl_section(i+1, sec))
+            progress_bar(i, len(lst))
 
 # Cover fb2 in header/footer
-with open(fl['xml']) as xml, open(fl['fb2'], 'w') as fb2:
-    fb2.write(dump_fb2_doc('Xz', 'Arifureta', xml.read()))
+with open(fl.xml) as xml, open(fl.fb2, 'w') as fb2:
+    fb2.write(dump_fb2_doc('Xz', fl.name, xml.read()))
 
 sys.exit(1)
