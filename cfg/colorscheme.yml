@@ -1,0 +1,7 @@
+default: 15  # Used in term-only
+
+Pronouns: [203, '#2233aa']  # USE by position
+  - highlight: '#aa3300'    # Override gui-only
+
+# Key dict, if need more variations
+Auxiliary: {term: 33, gui: '#330011'}

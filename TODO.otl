@@ -32,3 +32,8 @@ DEV
 	[_] Generate vimrc from all yml cfgs into ~/.cache/forestanza.vim
 	[_] Load syntax by 'source forestanza.vim' inside local <ranobe>/.vimrc
 		: OR inside <ranobe>/ place script to launch: vim -c 'source ...'
+	[_] Split lexics and colorscheme.
+		[_] Treat whole key-path inside yml as identifier for group
+		[_] Inherit colors in colorschemes from parent level
+		[_] Override colors by direct path
+		[_] Set several color variations for term and gui/pdf
