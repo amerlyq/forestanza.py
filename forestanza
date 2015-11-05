@@ -27,7 +27,7 @@ __url__ = 'https://github.com/amerlyq/forestanza'
 class FileBundle:
     TMPDIR = os.getenv('TMPDIR') or os.path.join('/tmp', os.getenv('USER'))
     DSTDIR = os.path.join(TMPDIR, __appname__)
-    EXTENSIONS = ['html', 'src', 'otl', 'fb2', 'xml', 'req', 'rsp']
+    EXTENSIONS = ['html', 'src', 'fza', 'fb2', 'xml', 'req', 'rsp']
 
     def __init__(self, src, name, chapter):
         self.url = src.format(chapter)
@@ -46,7 +46,7 @@ def progress_bar(i, n):
     print("{}/{} = {}%".format(i+1, n, round(100*i/n)))
 
 
-# DEV TODO header for otl '0: > ...' -- move common parts in separate function.
+# DEV TODO header for fza '0: > ...' -- move common parts in separate function.
 def dump_fb2_doc(author, title, secs):
     today = datetime.date.today()
     path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'cfg', 'template-fb2.xml')
@@ -71,10 +71,10 @@ def dump_fb2_section(ind, sec):
     return text.format(index=ind, **sec.__dict__)
 
 
-def dump_otl_section(ind, sec):
+def dump_fza_section(ind, sec):
     text = "<--{index:04d}-->\n"
-    text += "{origin:s}\n: {phonetics:s}\n\t~ {translation:s}\n"
-    text += ''.join(["| {!s:s} | {!s:s}: {!s:s}\n"
+    text += "{origin:s}\n: {phonetics:s}\n~ {translation:s}\n"
+    text += ''.join(["| {!s:s} |{!s:s}: {!s:s}\n"
                      .format(*row) for row in sec.rows])
     text += '\n'
     return text.format(index=ind, **sec.__dict__)
@@ -206,7 +206,7 @@ if __name__ == '__main__':
         lst = src.readlines()
 
     # Write main body
-    with open(fl.otl, 'w') as otl, open(fl.xml, 'w') as xml:
+    with open(fl.fza, 'w') as fza, open(fl.xml, 'w') as xml:
         for i, line in enumerate(lst):
             if not bCachedRsp:
                 line = gt.translate(line)
@@ -215,7 +215,7 @@ if __name__ == '__main__':
 
             sec = ResponseParser(line)
             xml.write(dump_fb2_section(i+1, sec))
-            otl.write(dump_otl_section(i+1, sec))
+            fza.write(dump_fza_section(i+1, sec))
             progress_bar(i, len(lst))
 
 # Cover fb2 in header/footer
