@@ -1,0 +1,15 @@
+#!/bin/bash -e
+cd $(dirname $(readlink -m ${0}))
+source ./funcs
+
+# SEE
+#   https://pythonhosted.org/kitchen/api-text-display.html
+#   translate-shell
+
+if distro arch; then
+    pkg_inst gawk curl python python-lxml python-yaml
+    aur_inst python3-kitchen
+
+elif distro ubuntu; then
+    pkg_inst gawk curl python3 python3-lxml python3-yaml
+fi
