@@ -1,11 +1,45 @@
+#-vim:ft=forestanza
+
+# 7
+Characters:
+  Main:
+    - [南雲|ハジメ, Nagumo|Hajime]
+    - [ユエ, Yue]
+    - [シア, Shia]
+    - [香織, Kaori]
+  Second:
+    - [八重樫|雫, Yaegashi|Shizuku]
+    - [クラルス|ティオ, Clarce|<Tio>]
+    - [鈴, <Suzu>]
+    - [天之河|光輝, Amanokawa|Kōki]
+  Third:
+    - [谷口, Taniguchi]
+    - [龍太郎, Ryutaro|Ryūtarō]
+
+# 203
 Pronouns:
-  me:
-    - [私, <%(watakusi|watasi|atasi)>, I]
+  Me:
+    - [私, '<%(watakusi|watasi|atasi)>', I]
     - 俺
     - [妾, <mekake>]
-  highlight: [ 奴, 達, 方 ]
-  you: [ 自身, [自分, <jibun>], お前等=, ご主人様 ]
-  they: [ 幼馴染, メンバー, こいつら=, 連中 ]
+  High: [ 奴, 達, 方 ]
+  You:  [ 自身, [自分, <jibun>], お前等=, ご主人様 ]
+  They: [ 幼馴染, メンバー, こいつら=, 連中 ]
+
+# 45
+Pointers:
+  Places:
+    - 何
+    - ['(っ)@2<![こそあ]%(れ|の|こ|っち|んな)', '<%(ko|so|a)%(re|no|ko|tta|nna)>']
+  Arentknow: [眼差, 視線, 突然]
+  Direction: [今, 唯, 向, 先, 結局, 外, 後, 内, 他, 前]
+  Moredirs:  [こと, 周囲, 天井, 場所]
+
+# 112
+Suffixes:
+  Seq:    [[を, <o>], [は|<wa>], [の, <no>], [も, <mo>], [で, <de>]]
+  Reason: [[から, kara>], [まで, made>], つつ]
+  Alter:  [[する, suru>], [ほど, hodo>]]
 
 Auxiliary:
   Linkage:

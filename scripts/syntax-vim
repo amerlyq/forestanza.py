@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from os import path as fs
+from os import makedirs, path as fs
 import sys
 import yaml
 
@@ -12,7 +12,10 @@ def expand_pj(path):
     elif path.startswith(":/"):
         return fs.join(fs.dirname(fs.abspath(sys.argv[0])), path[2:])
     elif path.startswith("@/"):
-        return fs.join(fs.expanduser('~/.cache'), __appname__, path[2:])
+        cachedir = fs.join(fs.expanduser('~/.cache'), __appname__)
+        if not fs.exists(cachedir):
+            makedirs(cachedir)
+        return fs.join(cachedir, path[2:])
 
 
 class ParseError(Exception):
@@ -26,7 +29,7 @@ def _F_selector(key, idx, main=False):
         # if isinstance(entry, dict):
         #     return entry.get(key)
         if isinstance(entry, list):
-            if not entry:
+            if not entry or idx >= len(entry):
                 return None
             if not isinstance(entry[idx], str):
                 raise ParseError()
@@ -41,11 +44,15 @@ class Flatten(list):
         self._flat(obj)
 
     def _flat(self, obj, chain=[]):
-        if not isinstance(obj, dict):
-            self.append([chain, obj])
-        else:
+        if not obj:
+            return
+        if isinstance(obj, dict):
             for k, v in obj.items():
                 self._flat(v, chain + [k])
+        # elif isinstance(obj, list) and isinstance(obj[0], list):
+        # DEV: nested lists for one key-value -- to split lexems logically w/o name.
+        else:
+            self.append([chain, obj])
 
 
 # ATTENTION: consider using OrderedDict, if cached .vimrc is supposed to be
@@ -55,13 +62,13 @@ def import_yaml(path):
         obj = yaml.safe_load(f)
     return obj
 
-
+# NOTE all lexems have the same group -- like fza_Pronounce, which repeats
 class SynGen:
     def __init__(self, lang):
         lexics = import_yaml(':/../cfg/lexems-' + lang + '.yml')
-        # NOTE only one file for all langs, as groups will have same names!
-        # colors = import_yaml(':/../cfg/colorscheme.yml')
+        colors = import_yaml(':/../cfg/colorscheme.yml')
         self.dom = Flatten(lexics)
+        print(self.dom)
 
     def _select(self, fsel, dom):
         return [[grp, [fsel(x) for x in ws if fsel(x)]] for grp, ws in dom]
@@ -69,22 +76,27 @@ class SynGen:
     def _adapt(self, lst):
         return [[''.join(grp), '|'.join(ws)] for grp, ws in lst]
 
-    def _print(self, fmt, lst):
+    def _syntax(self, fmt, lst):
         return [fmt.format(grp, rgx) for grp, rgx in lst if grp and rgx]
 
-    def origin(self):
-        lexems = self._select(_F_selector('origin', 0), self.dom)
-        return self._print("syn match fza_{:s} '{:s}'\n", self._adapt(lexems))
+    def _print(self, fmt, fsel):
+        return self._syntax(fmt, self._adapt(self._select(fsel, self.dom)))
+
+    def origin(self, fsel=_F_selector('origin', 0, True)):
+        return self._print("syn match fza_{:s} '\\v\\c{:s}'\n", fsel)
+
+    def phonetic(self):
+        return self.origin(_F_selector('phonetic', 1))
+
+    def colors(self):
+        return self._print("hi def fza_{:s} ctermbg=None guibg=None ctermfg=112 \"{:s}\n",
+                           lambda x: str(2))
 
 
 # NOTE additional fields in word is not supposed to be included into syntax
 # highlighting, but can be used for generating popups in some markups.
 if __name__ == '__main__':
     syntax = SynGen('jap')
-
-    with open(expand_pj('@/origin.vim'), 'w') as f:
-        f.writelines(syntax.origin())
-    # with open(expand_pj('@/phonetic.vim'), 'w') as f:
-    #     f.writelines(syntax.phonetic())
-    # with open(expand_pj('@/colors.vim'), 'w') as f:
-    #     f.writelines(lines)
+    for nm in ['origin', 'phonetic', 'colors']:
+        with open(expand_pj('@/' + nm + '.vim'), 'w') as f:
+            f.writelines(getattr(syntax, nm)())

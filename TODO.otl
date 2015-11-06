@@ -18,6 +18,10 @@ THINK
 		hardcopy > ss.ps (no japanese) and then ps2pdf ss.ps
 		:OR :TOhtml and then make epub?
 
+	IDEA: different processing, based on absolute paths?
+		E.g. -- treat group 'Characters' as whole words only
+		:> No sense: as I could use patterns in fields. Firstly, accumulate some lexics.
+
 
 DEV plugin for vim: specific highlighting and editing optimization
 	:= To eliminate necessity in votl and logically use some own keymaps.
