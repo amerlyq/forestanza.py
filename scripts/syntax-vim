@@ -6,16 +6,32 @@ import yaml
 
 __appname__ = "forestanza"
 
-def expand_pj(path):
-    if not isinstance(path, str):
-        return path
-    elif path.startswith(":/"):
-        return fs.join(fs.dirname(fs.abspath(sys.argv[0])), path[2:])
-    elif path.startswith("@/"):
-        cachedir = fs.join(fs.expanduser('~/.cache'), __appname__)
-        if not fs.exists(cachedir):
-            makedirs(cachedir)
-        return fs.join(cachedir, path[2:])
+
+class FileLoader:
+    CONFIGDIR = fs.dirname(fs.abspath(sys.argv[0]))
+    CACHEDIR = fs.join(fs.expanduser('~/.cache'), __appname__)
+
+    def expand_pj(path):
+        if not isinstance(path, str):
+            return path
+        elif path.startswith(":/"):
+            return fs.join(FileLoader.CONFIGDIR, path[2:])
+        elif path.startswith("@/"):
+            if not fs.exists(FileLoader.CACHEDIR):
+                makedirs(FileLoader.CACHEDIR)
+            return fs.join(FileLoader.CACHEDIR, path[2:])
+
+    # ATTENTION: consider using OrderedDict, if cached .vimrc
+    #   is supposed to be included under VCS
+    def import_yaml(name):
+        path = ':/../cfg/' + name + '.yml'
+        with open(FileLoader.expand_pj(path)) as f:
+            return yaml.safe_load(f)
+
+    def export_cache(name, lines):
+        path = '@/' + name + '.vim'
+        with open(FileLoader.expand_pj(path), 'w') as f:
+            f.writelines(lines)
 
 
 class ParseError(Exception):
@@ -55,20 +71,12 @@ class Flatten(list):
             self.append([chain, obj])
 
 
-# ATTENTION: consider using OrderedDict, if cached .vimrc is supposed to be
-#   included under VCS
-def import_yaml(path):
-    with open(expand_pj(path)) as f:
-        obj = yaml.safe_load(f)
-    return obj
-
 # NOTE all lexems have the same group -- like fza_Pronounce, which repeats
 class SynGen:
     def __init__(self, lang):
-        lexics = import_yaml(':/../cfg/lexems-' + lang + '.yml')
-        colors = import_yaml(':/../cfg/colorscheme.yml')
-        self.dom = Flatten(lexics)
-        print(self.dom)
+        self.clr = Flatten(FileLoader.import_yaml('colorscheme'))
+        self.dom = Flatten(FileLoader.import_yaml('lexems-' + lang))
+        print(self.clr)
 
     def _select(self, fsel, dom):
         return [[grp, [fsel(x) for x in ws if fsel(x)]] for grp, ws in dom]
@@ -81,6 +89,7 @@ class SynGen:
 
     def _print(self, fmt, fsel):
         return self._syntax(fmt, self._adapt(self._select(fsel, self.dom)))
+
 
     def origin(self, fsel=_F_selector('origin', 0, True)):
         return self._print("syn match fza_{:s} '\\v\\c{:s}'\n", fsel)
@@ -98,5 +107,4 @@ class SynGen:
 if __name__ == '__main__':
     syntax = SynGen('jap')
     for nm in ['origin', 'phonetic', 'colors']:
-        with open(expand_pj('@/' + nm + '.vim'), 'w') as f:
-            f.writelines(getattr(syntax, nm)())
+        FileLoader.export_cache(nm, getattr(syntax, nm)())

@@ -1,5 +1,6 @@
 # NOTE only one file for all langs, as they has the same groups!
 
+# Main color to inherit, when omitted -- allows using its surrounding.
 default: 15  # Used in term-only
 
 Pronouns:
