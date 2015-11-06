@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+
+from os import path as fs
+import sys
+import yaml
+
+__appname__ = "forestanza"
+
+def expand_pj(path):
+    if not isinstance(path, str):
+        return path
+    elif path.startswith(":/"):
+        return fs.join(fs.dirname(fs.abspath(sys.argv[0])), path[2:])
+    elif path.startswith("@/"):
+        return fs.join(fs.expanduser('~/.cache'), __appname__, path[2:])
+
+
+class ParseError(Exception):
+    """Base class for this program exceptions."""
+    pass
+
+
+def _F_selector(key, idx, main=False):
+    def selector_instance(entry):
+        ## WARNING can't be dict, as Flatten will expand all items!
+        # if isinstance(entry, dict):
+        #     return entry.get(key)
+        if isinstance(entry, list):
+            if not entry:
+                return None
+            if not isinstance(entry[idx], str):
+                raise ParseError()
+            return entry[idx]
+        if isinstance(entry, str):
+            return entry if main else None
+    return selector_instance
+
+
+class Flatten(list):
+    def __init__(self, obj):
+        self._flat(obj)
+
+    def _flat(self, obj, chain=[]):
+        if not isinstance(obj, dict):
+            self.append([chain, obj])
+        else:
+            for k, v in obj.items():
+                self._flat(v, chain + [k])
+
+
+# ATTENTION: consider using OrderedDict, if cached .vimrc is supposed to be
+#   included under VCS
+def import_yaml(path):
+    with open(expand_pj(path)) as f:
+        obj = yaml.safe_load(f)
+    return obj
+
+
+class SynGen:
+    def __init__(self, lang):
+        lexics = import_yaml(':/../cfg/lexems-' + lang + '.yml')
+        # NOTE only one file for all langs, as groups will have same names!
+        # colors = import_yaml(':/../cfg/colorscheme.yml')
+        self.dom = Flatten(lexics)
+
+    def _select(self, fsel, dom):
+        return [[grp, [fsel(x) for x in ws if fsel(x)]] for grp, ws in dom]
+
+    def _adapt(self, lst):
+        return [[''.join(grp), '|'.join(ws)] for grp, ws in lst]
+
+    def _print(self, fmt, lst):
+        return [fmt.format(grp, rgx) for grp, rgx in lst if grp and rgx]
+
+    def origin(self):
+        lexems = self._select(_F_selector('origin', 0), self.dom)
+        return self._print("syn match fza_{:s} '{:s}'\n", self._adapt(lexems))
+
+
+# NOTE additional fields in word is not supposed to be included into syntax
+# highlighting, but can be used for generating popups in some markups.
+if __name__ == '__main__':
+    syntax = SynGen('jap')
+
+    with open(expand_pj('@/origin.vim'), 'w') as f:
+        f.writelines(syntax.origin())
+    # with open(expand_pj('@/phonetic.vim'), 'w') as f:
+    #     f.writelines(syntax.phonetic())
+    # with open(expand_pj('@/colors.vim'), 'w') as f:
+    #     f.writelines(lines)
