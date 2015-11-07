@@ -13,9 +13,12 @@ def dict_resolve(obj, chain, i=0):
 # THINK could be optimized by moving on next step i -> i+1
 # and starting from i=1
 # return dict_resolve(obj, chain, i+1)
+# NEXT optimization through cache resolved partial matches in dict
 
 
 # WARNING: need Python >= 3.3
+# DEV: nested lists for one key-value -- to split lexems logically w/o name.
+#   := elif isinstance(obj, list) and isinstance(obj[0], list):
 def dict_flatten(obj, chain=[]):
     for k, v in sorted(obj.items()):
         if isinstance(v, dict):

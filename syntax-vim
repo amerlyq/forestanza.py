@@ -2,11 +2,12 @@
 
 import sys
 from os import makedirs, path as fs
-from collections import OrderedDict, Iterable
+from collections import Iterable
 
 import yaml
 
-__appname__ = "forestanza"
+from forestanza import __appname__
+from forestanza.common import dict_resolve, dict_flatten
 
 
 class FileLoader:
@@ -14,6 +15,8 @@ class FileLoader:
     CACHEDIR = fs.join(fs.expanduser('~/.cache'), __appname__)
 
     def expand_pj(path):
+        if isinstance(path, list):
+            path = fs.join(*path)
         if not isinstance(path, str):
             return path
         elif path.startswith(":/"):
@@ -23,15 +26,13 @@ class FileLoader:
                 makedirs(FileLoader.CACHEDIR)
             return fs.join(FileLoader.CACHEDIR, path[2:])
 
-    # ATTENTION: consider using OrderedDict, if cached .vimrc
-    #   is supposed to be included under VCS
     def import_yaml(name):
-        path = ':/../cfg/' + name + '.yml'
+        path = [':', 'cfg', name + '.yml']
         with open(FileLoader.expand_pj(path)) as f:
             return yaml.safe_load(f)
 
     def export_cache(name, lines):
-        path = '@/' + name + '.vim'
+        path = ['@', name + '.vim']
         with open(FileLoader.expand_pj(path), 'w') as f:
             f.writelines(lines)
 
@@ -57,25 +58,9 @@ def _F_selector(key, idx, main=False):
     return selector_instance
 
 
-class Flatten(list):
-    def __init__(self, obj):
-        self._flat(obj)
-
-    def _flat(self, obj, chain=[]):
-        if not obj:
-            return
-        if isinstance(obj, (dict, OrderedDict)):
-            for k, v in obj.items():
-                self._flat(v, chain + [k])
-        # elif isinstance(obj, list) and isinstance(obj[0], list):
-        # DEV: nested lists for one key-value -- to split lexems logically w/o name.
-        else:
-            self.append([chain, obj])
-
-
 class DomFormat:
     def load(name):
-        return sorted(Flatten(FileLoader.import_yaml(name)))
+        return dict_flatten(FileLoader.import_yaml(name))
 
     def filter(f, L):
         return [f(x) for x in L if f(x)] if isinstance(L, Iterable) else f(L)
@@ -83,8 +68,9 @@ class DomFormat:
     def select(fsel, dom):
         return [[grp, DomFormat.filter(fsel, ws)] for grp, ws in dom]
 
-    def adapt(lst):
-        return [[''.join(grp), '|'.join(ws)] for grp, ws in lst]
+    def adapt(clr, lst):
+        return [[''.join(grp),
+                 '|'.join(ws)] for grp, ws in lst]
 
     def format(fmt, LL):
         return [fmt.format(*x) for x in LL if '' not in x]
@@ -93,16 +79,15 @@ class DomFormat:
 # NOTE all lexems have the same group -- like fza_Pronounce, which repeats
 class SynGen:
     def __init__(self, lang):
-        self.clr = DomFormat.load('colorscheme')
+        self.clr = FileLoader.import_yaml('colorscheme')
         self.dom = DomFormat.load('lexems-' + lang)
-        print(self.clr)
         # print(self._select(_F_selector('', 0, True), self.clr))
         # print(self._select(_F_selector('origin', 0, True), self.dom))
 
     def origin(self, fsel=_F_selector('origin', 0, True)):
         return DomFormat.format(
             "syn match fza_{:s} '\\v\\c{:s}'\n",
-            DomFormat.adapt(DomFormat.select(fsel, self.dom)))
+            DomFormat.adapt(self.clr, DomFormat.select(fsel, self.dom)))
 
     def phonetic(self):
         return self.origin(_F_selector('phonetic', 1))
@@ -110,19 +95,12 @@ class SynGen:
     def colors(self):
         return DomFormat.format(
             "hi def fza_{:s} ctermbg=None guibg=None ctermfg=112 \"{:s}\n",
-            DomFormat.adapt(DomFormat.select(lambda x: str(2), self.dom)))
+            DomFormat.adapt(self.clr, DomFormat.select(lambda x: str(2), self.dom)))
 
-
-def init():
-    yaml.add_constructor(
-        'tag:yaml.org,2002:map',
-        lambda ldr, node: OrderedDict(ldr.construct_pairs(node)),
-        Loader=yaml.SafeLoader)
 
 # NOTE additional fields in word is not supposed to be included into syntax
 # highlighting, but can be used for generating popups in some markups.
 if __name__ == '__main__':
-    init()
     syntax = SynGen('jap')
     for nm in ['origin', 'phonetic', 'colors']:
         FileLoader.export_cache(nm, getattr(syntax, nm)())
