@@ -1,11 +1,17 @@
 # NOTE only one file for all langs, as they has the same groups!
 
-# Main color to inherit, when omitted -- allows using its surrounding.
-'': 15  # Used in term-only
+# _ - Main color to inherit on all same and deeper levels.
+# Keys \w under _: searched on same level of all inherited groups.
+# When omitted -- allows the surrounding syntax regions to affect color.
+_: 15  # Used in term-only
 
 Pronouns:
-  '': [203, '#2233aa']  # USE by position
-  highlight: '#aa3300'  # Override gui-only
+  _: [203, '#2233aa']  # USE by position
+  I: 204
+  highlight:
+    _: &hi '#aa3300'  # Override gui-only
+    some: 4
+  cry: *hi
 
 Suffixes: 112
 

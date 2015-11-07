@@ -56,7 +56,43 @@ def _F_selector(key, idx, main=False):
             return entry if main else None
     return selector_instance
 
+# look up [key] in \w keys of \w group
+# - look up [dkey] from the same level
+#   - look up [dkey] recursively on above level
+# return whole chain
+# CANCEL w/o last [dkey] if present
 
+class dictdef(dict):
+    def __getitem__(self, key):
+        if not isinstance(key, list):
+            return self.get(key, self.get(dictdef.KEYDEF))
+    # If returns None -- you need to search on upper level
+
+# Maps list chain over dict with default values
+
+KEYDEF = '_'
+def resolve_chain(obj, chain, i=0):
+    if not isinstance(obj, dict) or i >= len(chain):
+        return chain[:i]  # i -- количество удачно пройденных звеньев
+    if chain[i] in obj:
+        return resolve_chain(obj[chain[i]], chain, i+1)
+    if KEYDEF in obj:
+        return obj[KEYDEF]
+
+# THINK could be optimized by moving on next step i -> i+1
+# and starting from i=1
+# return resolve_chain(obj, chain, i+1)
+
+
+# def dict_intersect(obj, mask):
+#     if not isinstance(obj, dict):
+#         return obj
+#     return {k: dict_intersect(v, mask[k] if '' != k else )
+#             for k, v in obj.items()
+#             if '' == k or k in mask}
+
+
+# { k: v['id1'] for k, v in a.items() if 'id1' in v }
 class Flatten(list):
     def __init__(self, obj):
         self._flat(obj)
