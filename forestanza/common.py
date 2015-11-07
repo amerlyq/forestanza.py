@@ -27,6 +27,15 @@ def dict_flatten(obj, chain=[]):
             yield (chain + [k], v)
 
 
+def getcolumn(obj, idx):
+    for e in obj:
+        if isinstance(e, (list, tuple)):
+            if idx < len(e):
+                yield e[idx]
+        elif idx == 0:
+            yield e
+
+
 def dict_intersect(obj, mask):
     if not isinstance(obj, dict) or not isinstance(mask, dict):
         return obj

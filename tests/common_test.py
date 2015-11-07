@@ -1,5 +1,5 @@
 from forestanza.common import (
-    KEYDEF, dict_resolve, dict_flatten, dict_intersect)
+    KEYDEF, dict_resolve, dict_flatten, getcolumn, dict_intersect)
 
 DATA = {KEYDEF: 1, 'a': 2, 'b': {'ib': 5},
         'c': {KEYDEF: 3, 'ic': 4, 'jc': {'m': 1}}}
@@ -45,6 +45,24 @@ class TestF_dict_flatten:
         assert ([(['a', 'c'], 3), (['a', 'd'], 4)] ==
                 list(dict_flatten({'a': {'c': 3, 'd': 4}})))
 
+
+class TestF_list_getcolumn:
+    def test_i0(self):
+        assert [] == list(getcolumn([], 0))
+        assert [] == list(getcolumn([[]], 0))
+        assert [1] == list(getcolumn([1], 0))
+        assert [1] == list(getcolumn([[1, 2]], 0))
+        assert [1, 3] == list(getcolumn([[1, 2], [3, 4]], 0))
+
+    def test_i1(self):
+        assert [] == list(getcolumn([], 1))
+        assert [] == list(getcolumn([[]], 1))
+        assert [] == list(getcolumn([1], 1))
+        assert [2] == list(getcolumn([[1, 2]], 1))
+        assert [2, 4] == list(getcolumn([[1, 2], [3, 4]], 1))
+
+    def test_i2(self):
+        assert [] == list(getcolumn([[1, 2], [3, 4]], 2))
 
 # MASK = {'a': [1, 2], 'c': {'ic': [3, 4], 'ff': 5}, 'f': [6]}
 # class TestF_dict_intersect:
