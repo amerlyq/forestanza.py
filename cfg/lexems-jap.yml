@@ -18,9 +18,10 @@ Characters:
 
 # 203
 Pronouns:
+  I:
+    - [私, 'watakusi|watasi|<atasi']
+    - [俺, <ore>]
   Me:
-    - [私, '<%(watakusi|watasi|atasi)>', I]
-    - 俺
     - [妾, <mekake>]
   High: [ 奴, 達, 方 ]
   You:  [ 自身, [自分, <jibun>], お前等=, ご主人様 ]
@@ -37,11 +38,11 @@ Pointers:
 
 # 112
 Suffixes:
-  Topics:  [[を, <o>], [は|<wa>], [の, <no>], [で, <de>]]
+  Topics:   [[を, <o>], [は, <wa>], [の, <no>], [で, <de>]]
   Sequence: [[も, <mo>], [<や>, <ya>]]
-  Reasons: [[から, kara>], [まで, made>], つつ]
-  Alterate:  [[する, suru>], [ほど, hodo>]]
-  Question:  [[か>, <ka>]]
+  Reasons:  [[から, kara>], [まで, made>], つつ]
+  Alterate: [[する, suru>], [ほど, hodo>]]
+  Question: [[か>, <ka>]]
 
 Auxiliary:
   Linkage:

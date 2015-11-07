@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
-from os import makedirs, path as fs
 import sys
+from os import makedirs, path as fs
+from collections import OrderedDict, Iterable
+
 import yaml
 
 __appname__ = "forestanza"
@@ -42,15 +44,15 @@ class ParseError(Exception):
 def _F_selector(key, idx, main=False):
     def selector_instance(entry):
         ## WARNING can't be dict, as Flatten will expand all items!
-        # if isinstance(entry, dict):
+        # if isinstance(entry, (dict, OrderedDict)):
         #     return entry.get(key)
-        if isinstance(entry, list):
+        if isinstance(entry, (list, tuple)):
             if not entry or idx >= len(entry):
                 return None
-            if not isinstance(entry[idx], str):
+            if not isinstance(entry[idx], (str, int)):
                 raise ParseError()
             return entry[idx]
-        if isinstance(entry, str):
+        if isinstance(entry, (str, int)):
             return entry if main else None
     return selector_instance
 
@@ -62,7 +64,7 @@ class Flatten(list):
     def _flat(self, obj, chain=[]):
         if not obj:
             return
-        if isinstance(obj, dict):
+        if isinstance(obj, (dict, OrderedDict)):
             for k, v in obj.items():
                 self._flat(v, chain + [k])
         # elif isinstance(obj, list) and isinstance(obj[0], list):
@@ -71,40 +73,56 @@ class Flatten(list):
             self.append([chain, obj])
 
 
+class DomFormat:
+    def load(name):
+        return sorted(Flatten(FileLoader.import_yaml(name)))
+
+    def filter(f, L):
+        return [f(x) for x in L if f(x)] if isinstance(L, Iterable) else f(L)
+
+    def select(fsel, dom):
+        return [[grp, DomFormat.filter(fsel, ws)] for grp, ws in dom]
+
+    def adapt(lst):
+        return [[''.join(grp), '|'.join(ws)] for grp, ws in lst]
+
+    def format(fmt, LL):
+        return [fmt.format(*x) for x in LL if '' not in x]
+
+
 # NOTE all lexems have the same group -- like fza_Pronounce, which repeats
 class SynGen:
     def __init__(self, lang):
-        self.clr = Flatten(FileLoader.import_yaml('colorscheme'))
-        self.dom = Flatten(FileLoader.import_yaml('lexems-' + lang))
+        self.clr = DomFormat.load('colorscheme')
+        self.dom = DomFormat.load('lexems-' + lang)
         print(self.clr)
-
-    def _select(self, fsel, dom):
-        return [[grp, [fsel(x) for x in ws if fsel(x)]] for grp, ws in dom]
-
-    def _adapt(self, lst):
-        return [[''.join(grp), '|'.join(ws)] for grp, ws in lst]
-
-    def _syntax(self, fmt, lst):
-        return [fmt.format(grp, rgx) for grp, rgx in lst if grp and rgx]
-
-    def _print(self, fmt, fsel):
-        return self._syntax(fmt, self._adapt(self._select(fsel, self.dom)))
-
+        # print(self._select(_F_selector('', 0, True), self.clr))
+        # print(self._select(_F_selector('origin', 0, True), self.dom))
 
     def origin(self, fsel=_F_selector('origin', 0, True)):
-        return self._print("syn match fza_{:s} '\\v\\c{:s}'\n", fsel)
+        return DomFormat.format(
+            "syn match fza_{:s} '\\v\\c{:s}'\n",
+            DomFormat.adapt(DomFormat.select(fsel, self.dom)))
 
     def phonetic(self):
         return self.origin(_F_selector('phonetic', 1))
 
     def colors(self):
-        return self._print("hi def fza_{:s} ctermbg=None guibg=None ctermfg=112 \"{:s}\n",
-                           lambda x: str(2))
+        return DomFormat.format(
+            "hi def fza_{:s} ctermbg=None guibg=None ctermfg=112 \"{:s}\n",
+            DomFormat.adapt(DomFormat.select(lambda x: str(2), self.dom)))
 
+
+def init():
+    yaml.add_constructor(
+        'tag:yaml.org,2002:map',
+        lambda ldr, node: OrderedDict(ldr.construct_pairs(node)),
+        Loader=yaml.SafeLoader)
 
 # NOTE additional fields in word is not supposed to be included into syntax
 # highlighting, but can be used for generating popups in some markups.
 if __name__ == '__main__':
+    init()
     syntax = SynGen('jap')
     for nm in ['origin', 'phonetic', 'colors']:
         FileLoader.export_cache(nm, getattr(syntax, nm)())
