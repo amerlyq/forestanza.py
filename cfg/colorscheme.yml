@@ -6,6 +6,17 @@
 _: 12  # Used in term-only
 
 Characters: 7
+Lore: 228
+
+Pointers: 45
+Properties: 105
+Suffixes: 112
+Verbs: 214
+
+Speech: 39
+
+Service: 177
+
 Pronouns:
   _: [203, '#2233aa']  # USE by position
   # I: 204
@@ -13,9 +24,6 @@ Pronouns:
   #   _: &hi '#aa3300'  # Override gui-only
   #   some: 4
   # cry: *hi
-
-Pointers: 45
-Suffixes: 112
 
 # Key dict, if need more variations -- BUT how then to flatten yaml?
 # Auxiliary: {term: 33, gui: '#330011'}

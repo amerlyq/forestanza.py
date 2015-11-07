@@ -60,7 +60,7 @@ def _F_selector(key, idx, main=False):
 
 class SynGen:
     CLROPTS = ['ctermfg', 'guifg', 'ctermbg', 'guibg']
-    SYNFMT = "syn match fza_{:s} '\\v\\c{:s}'\n"
+    SYNFMT = "syn match fza_{:s} display '\\v\\c{:s}'\n"
 
     def __init__(self, lang):
         clrs = FileLoader.import_yaml('colorscheme')

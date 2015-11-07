@@ -1,4 +1,4 @@
-#-vim:ft=forestanza
+# vim: set ts=2 sw=2 sts=2: ft=forestanza
 
 Characters:
   Main:
@@ -15,16 +15,14 @@ Characters:
     - [谷口, Taniguchi]
     - [龍太郎, Ryutaro|Ryūtarō]
 
-
-Pronouns:
-  I:
-    - [私, 'watakusi|watasi|<atasi']
-    - [俺, <ore>]
-  Me:
-    - [妾, <mekake>]
-  High: [ 奴, 達, 方 ]
-  You:  [ 自身, [自分, <jibun>], お前等=, ご主人様 ]
-  They: [ 幼馴染, メンバー, こいつら=, 連中 ]
+Lore:
+  Objects:
+    - [大迷宮, 解放者, オルクス, 樹海, 巨樹, 宝物庫, 円月輪, クロス, ビット]
+    - [魔人族, ツッコミ]
+    - [乳白色]
+    - [聖絶, 雷華, 魔衝波, 瞬光]
+    - [魔物, 蜘蛛, ゴーレム, スライム]
+    - [転送, 魔法, 結界, 障壁, 分解]
 
 
 Pointers:
@@ -35,6 +33,7 @@ Pointers:
   Direction: [今, 唯, 向, 先, 結局, 外, 後, 内, 他, 前]
   Moredirs:  [こと, 周囲, 天井, 場所]
 
+Properties: [ 一., 地面, 大丈夫]
 
 Suffixes:
   Topics:   [[を, <o>], [は, <wa>], [の, <no>], [で, <de>]]
@@ -43,7 +42,39 @@ Suffixes:
   Alterate: [[する, suru>], [ほど, hodo>]]
   Question: [[か>, <ka>]]
 
+Verbs:
+  Existence: [ない, めろ, いろ, [いる, iru>]]
+  Past: [のだ, だろう=, ようだ, だった]
+  Xz: [しまった, みたい]
+  Become: [[なる, naru, become], [れる, reru>], [して, shite], [したら=, shita%(ra)=]]
 
 Auxiliary:
   Linkage:
     - [ため, <tame>, "in order to", ради]
+
+Speech:
+  - [言, という, <to iu>]
+  - [事実=, kotoba, words]
+  - [推測, suisoku, guess]
+  - [思, <omo, think]
+  - [考え, kangae, consider]
+  - [疑問, gimon, question]
+
+Service:
+  L1: [全く, もう, しかし, そして, マジ, だから, すら]
+  L2: [だが, また, と共に, 取り敢えず, どうやら, もっと]
+  L3: [なら, より, ただ, なり, なく]
+  L4: [クソ%(ッタレ)=, きゃ]
+  L5:
+    - [代わり, kawari, instead]
+    - [確か, <tashika, certainly|indeed]
+
+Pronouns:
+  I:
+    - [私, watakusi|watasi|<atasi]
+    - [俺, <ore>]
+  Me:
+    - [妾, <mekake>]
+  High: [ 奴, 達, 方 ]
+  You:  [ 自身, [自分, <jibun>], お前等=, ご主人様 ]
+  They: [ 幼馴染, メンバー, こいつら=, 連中 ]
