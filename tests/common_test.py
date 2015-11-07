@@ -1,31 +1,43 @@
-from forestanza.common import resolve_chain
+from forestanza.common import (
+    KEYDEF, dict_resolve, dict_intersect)
 
-DAT1 = {'_': 1, 'a': 2,
-        'b': {'_': 3, 'ib': 4, 'jb': {'m': 1}},
+DATA = {KEYDEF: 1, 'a': 2,
+        'b': {KEYDEF: 3, 'ib': 4, 'jb': {'m': 1}},
         'c': {'ic': 5}}
 
 class TestF_resolve_chain:
     def test_1L(self):
-        assert [] == resolve_chain(DAT1, [])
-        assert ['a'] == resolve_chain(DAT1, ['a'])
-        assert ['b'] == resolve_chain(DAT1, ['b'])
-        assert ['c'] == resolve_chain(DAT1, ['c'])
-        assert ['_'] == resolve_chain(DAT1, ['z'])
+        assert [] == dict_resolve(DATA, [])
+        assert ['a'] == dict_resolve(DATA, ['a'])
+        assert ['b'] == dict_resolve(DATA, ['b'])
+        assert ['c'] == dict_resolve(DATA, ['c'])
+        assert [KEYDEF] == dict_resolve(DATA, ['z'])
 
     def test_2L(self):
-        assert ['a'] == resolve_chain(DAT1, ['a', 'z'])
-        assert ['_'] == resolve_chain(DAT1, ['c', 'z'])
-        assert ['_'] == resolve_chain(DAT1, ['y', 'z'])
-        assert ['b', 'ib'] == resolve_chain(DAT1, ['b', 'ib'])
-        assert ['b', '_'] == resolve_chain(DAT1, ['b', 'z'])
-        assert ['c', 'ic'] == resolve_chain(DAT1, ['c', 'ic'])
-        assert ['_'] == resolve_chain(DAT1, ['c', 'z'])
+        assert ['a'] == dict_resolve(DATA, ['a', 'z'])
+        assert [KEYDEF] == dict_resolve(DATA, ['c', 'z'])
+        assert [KEYDEF] == dict_resolve(DATA, ['y', 'z'])
+        assert ['b', 'ib'] == dict_resolve(DATA, ['b', 'ib'])
+        assert ['b', KEYDEF] == dict_resolve(DATA, ['b', 'z'])
+        assert ['c', 'ic'] == dict_resolve(DATA, ['c', 'ic'])
+        assert [KEYDEF] == dict_resolve(DATA, ['c', 'z'])
 
     def test_3L(self):
-        assert ['a'] == resolve_chain(DAT1, ['a', 'y', 'z'])
-        assert ['_'] == resolve_chain(DAT1, ['c', 'y', 'z'])
-        assert ['b', 'ib'] == resolve_chain(DAT1, ['b', 'ib', 'z'])
-        assert ['b', '_'] == resolve_chain(DAT1, ['b', 'y', 'z'])
-        assert ['c', 'ic'] == resolve_chain(DAT1, ['c', 'ic', 'z'])
-        assert ['b', 'jb', 'm'] == resolve_chain(DAT1, ['b', 'jb', 'm'])
-        assert ['b', '_'] == resolve_chain(DAT1, ['b', 'jb', 'z'])
+        assert ['a'] == dict_resolve(DATA, ['a', 'y', 'z'])
+        assert [KEYDEF] == dict_resolve(DATA, ['c', 'y', 'z'])
+        assert ['b', 'ib'] == dict_resolve(DATA, ['b', 'ib', 'z'])
+        assert ['b', KEYDEF] == dict_resolve(DATA, ['b', 'y', 'z'])
+        assert ['c', 'ic'] == dict_resolve(DATA, ['c', 'ic', 'z'])
+        assert ['b', 'jb', 'm'] == dict_resolve(DATA, ['b', 'jb', 'm'])
+        assert ['b', KEYDEF] == dict_resolve(DATA, ['b', 'jb', 'z'])
+
+
+MASK = {'a': [1, 2], 'b': {'ib': [3, 4], 'ff': 5}, 'f': [6]}
+
+# class TestF_dict_intersect:
+#     def test_1L(self):
+#         assert {} == dict_intersect(DATA, {})
+#         assert {'a': 2} == dict_intersect(DATA, {'a': 0})
+#         assert {'b': {'_': 3}} == dict_intersect(DATA, {'b': 0})
+#         assert {'_': 1} == dict_intersect(DATA, {'c': 0})
+#         assert {'_': 1} == dict_intersect(DATA, {'z': 0})
