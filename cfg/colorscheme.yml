@@ -3,16 +3,18 @@
 # _ - Main color to inherit on all same and deeper levels.
 # Keys \w under _: searched on same level of all inherited groups.
 # When omitted -- allows the surrounding syntax regions to affect color.
-_: 15  # Used in term-only
+_: 12  # Used in term-only
 
+Characters: 7
 Pronouns:
   _: [203, '#2233aa']  # USE by position
-  I: 204
-  highlight:
-    _: &hi '#aa3300'  # Override gui-only
-    some: 4
-  cry: *hi
+  # I: 204
+  # highlight:
+  #   _: &hi '#aa3300'  # Override gui-only
+  #   some: 4
+  # cry: *hi
 
+Pointers: 45
 Suffixes: 112
 
 # Key dict, if need more variations -- BUT how then to flatten yaml?

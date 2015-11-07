@@ -7,7 +7,7 @@ from collections import Iterable
 import yaml
 
 from forestanza import __appname__
-from forestanza.common import dict_resolve, dict_flatten
+from forestanza.common import dict_resolve, dict_flatten, getcolumn
 
 
 class FileLoader:
@@ -58,49 +58,42 @@ def _F_selector(key, idx, main=False):
     return selector_instance
 
 
-class DomFormat:
-    def load(name):
-        return dict_flatten(FileLoader.import_yaml(name))
-
-    def filter(f, L):
-        return [f(x) for x in L if f(x)] if isinstance(L, Iterable) else f(L)
-
-    def select(fsel, dom):
-        return [[grp, DomFormat.filter(fsel, ws)] for grp, ws in dom]
-
-    def adapt(clr, lst):
-        return [[''.join(grp),
-                 '|'.join(ws)] for grp, ws in lst]
-
-    def format(fmt, LL):
-        return [fmt.format(*x) for x in LL if '' not in x]
-
-
-# NOTE all lexems have the same group -- like fza_Pronounce, which repeats
 class SynGen:
+    CLROPTS = ['ctermfg', 'guifg', 'ctermbg', 'guibg']
+    SYNFMT = "syn match fza_{:s} '\\v\\c{:s}'\n"
+
     def __init__(self, lang):
-        self.clr = FileLoader.import_yaml('colorscheme')
-        self.dom = DomFormat.load('lexems-' + lang)
-        # print(self._select(_F_selector('', 0, True), self.clr))
-        # print(self._select(_F_selector('origin', 0, True), self.dom))
+        clrs = FileLoader.import_yaml('colorscheme')
+        lexs = FileLoader.import_yaml('lexems-' + lang)
+        self.clr = {}
+        self.dom = list(self.process(clrs, lexs))
 
-    def origin(self, fsel=_F_selector('origin', 0, True)):
-        return DomFormat.format(
-            "syn match fza_{:s} '\\v\\c{:s}'\n",
-            DomFormat.adapt(self.clr, DomFormat.select(fsel, self.dom)))
+    def process(self, clrs, lexs):
+        for chain, words in dict_flatten(lexs):
+            cchn, cval = dict_resolve(clrs, chain)
+            grp = ''.join(cchn)
+            if grp not in self.clr:
+                self.clr[grp] = cval if isinstance(cval, list) else [cval]
+            yield (chain, grp, getcolumn(words, 0), getcolumn(words, 1))
 
-    def phonetic(self):
-        return self.origin(_F_selector('phonetic', 1))
+    def make_from(self, idx):
+        for entry in self.dom:
+            rgx = '|'.join(entry[idx])
+            if rgx:
+                yield (SynGen.SYNFMT.format(entry[1], rgx))
 
     def colors(self):
-        return DomFormat.format(
-            "hi def fza_{:s} ctermbg=None guibg=None ctermfg=112 \"{:s}\n",
-            DomFormat.adapt(self.clr, DomFormat.select(lambda x: str(2), self.dom)))
+        for grp, clr in sorted(self.clr.items()):
+            higlt = "hi def fza_{:s}".format(grp)
+            for i, v in enumerate(clr):
+                higlt += ' {:s}={:s}'.format(SynGen.CLROPTS[i], str(v))
+            yield higlt + "\n"
 
 
 # NOTE additional fields in word is not supposed to be included into syntax
 # highlighting, but can be used for generating popups in some markups.
 if __name__ == '__main__':
     syntax = SynGen('jap')
-    for nm in ['origin', 'phonetic', 'colors']:
-        FileLoader.export_cache(nm, getattr(syntax, nm)())
+    FileLoader.export_cache('origin', syntax.make_from(2))
+    FileLoader.export_cache('phonetic', syntax.make_from(3))
+    FileLoader.export_cache('colors', syntax.colors())

@@ -1,6 +1,5 @@
 #-vim:ft=forestanza
 
-# 7
 Characters:
   Main:
     - [南雲|ハジメ, Nagumo|Hajime]
@@ -16,7 +15,7 @@ Characters:
     - [谷口, Taniguchi]
     - [龍太郎, Ryutaro|Ryūtarō]
 
-# 203
+
 Pronouns:
   I:
     - [私, 'watakusi|watasi|<atasi']
@@ -27,7 +26,7 @@ Pronouns:
   You:  [ 自身, [自分, <jibun>], お前等=, ご主人様 ]
   They: [ 幼馴染, メンバー, こいつら=, 連中 ]
 
-# 45
+
 Pointers:
   Places:
     - 何
@@ -36,13 +35,14 @@ Pointers:
   Direction: [今, 唯, 向, 先, 結局, 外, 後, 内, 他, 前]
   Moredirs:  [こと, 周囲, 天井, 場所]
 
-# 112
+
 Suffixes:
   Topics:   [[を, <o>], [は, <wa>], [の, <no>], [で, <de>]]
   Sequence: [[も, <mo>], [<や>, <ya>]]
   Reasons:  [[から, kara>], [まで, made>], つつ]
   Alterate: [[する, suru>], [ほど, hodo>]]
   Question: [[か>, <ka>]]
+
 
 Auxiliary:
   Linkage:
