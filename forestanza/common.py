@@ -16,11 +16,10 @@ def dict_resolve(obj, chain, i=0):
 
 
 def dict_intersect(obj, mask):
-    pass
-#     if not isinstance(obj, dict):
-#         return obj
-#     return {k: dict_intersect(v, mask[k] if '' != k else )
-#             for k, v in obj.items()
-#             if '' == k or k in mask}
+    if not isinstance(obj, dict):
+        return obj
+    return {k: v if KEYDEF == k else dict_intersect(v, mask[k])
+            for k, v in obj.items()
+            if KEYDEF == k or k in mask}
 # { k: v['id1'] for k, v in a.items() if 'id1' in v }
 
