@@ -21,6 +21,9 @@ TSYN = """<tr>
 <td>{!s:s}</td>
 </tr>\n"""
 
+import re
+
+rgx_kana = re.compile(u"([\u3041-\u3096\u30A0-\u30FA]+)")
 
 class Exporter:
     def __init__(self, **kw):
@@ -39,7 +42,8 @@ class Exporter:
 
     def p_section(self, ind, sec):
         # DEV: cover 'sec' into colored 'span' syntax
-        # <span class="syn">: {phonetics:s}</span>
+        hl = r'<span class="syn">\1</span>'
         self.sections.append(TSEC.format(
             syntable=''.join([TSYN.format(*row) for row in sec.rows]),
-            index=ind, **sec.__dict__))
+            index=ind, origin=rgx_kana.sub(hl, sec.origin),
+            phonetics=sec.phonetics, translation=sec.translation))
