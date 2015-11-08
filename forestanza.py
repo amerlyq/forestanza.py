@@ -13,7 +13,7 @@ from lxml import html
 from kitchen.text.display import textual_width_fill
 
 import forestanza
-from forestanza.ftype import fb2, fza
+from forestanza.ftype import fb2, fza, xhtml
 
 
 class FileBundle:
@@ -70,7 +70,7 @@ class ResponseParser:
         if not word or word in ResponseParser.REM_WORDS:
             return None
         if word in [',']:
-            return '-' * 12
+            return '-' * 10
         return word
 
     def format_row(self, japword, synonyms):
@@ -164,6 +164,7 @@ if __name__ == '__main__':
 
     efb2 = fb2.Exporter(author='Xz', title=fl.name)
     efza = fza.Exporter(author='Xz', title=fl.name)
+    exhtml = xhtml.Exporter(author='Xz', title=fl.name)
 
     # Write main body
     with open(fl.fza, 'w') as fza:
@@ -176,6 +177,7 @@ if __name__ == '__main__':
             sec = ResponseParser(line)
             efb2.p_section(i+1, sec)
             efza.p_section(i+1, sec)
+            exhtml.p_section(i+1, sec)
             progress_bar(i, len(lst))
 
     # Cover fb2 in header/footer
@@ -183,3 +185,5 @@ if __name__ == '__main__':
         f.write(efb2.dump())
     with open(fl.fza, 'w') as f:
         f.write(efza.dump())
+    with open(fl.xhtml, 'w') as f:
+        f.write(exhtml.dump())
