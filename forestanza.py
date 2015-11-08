@@ -13,12 +13,13 @@ from lxml import html
 from kitchen.text.display import textual_width_fill
 
 import forestanza
+from forestanza.ftype import fb2, fza
 
 
 class FileBundle:
     TMPDIR = os.getenv('TMPDIR') or os.path.join('/tmp', os.getenv('USER'))
     DSTDIR = os.path.join(TMPDIR, forestanza.__appname__)
-    EXTENSIONS = ['html', 'src', 'fza', 'fb2', 'xml', 'req', 'rsp']
+    EXTENSIONS = ['html', 'src', 'fza', 'fb2', 'xhtml', 'xml', 'req', 'rsp']
 
     def __init__(self, src, name, chapter):
         self.url = src.format(chapter)
@@ -35,41 +36,6 @@ class FileBundle:
 
 def progress_bar(i, n):
     print("{}/{} = {}%".format(i+1, n, round(100*i/n)))
-
-
-# DEV TODO header for fza '0: > ...' -- move common parts in separate function.
-def dump_fb2_doc(author, title, secs):
-    today = datetime.date.today()
-    path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'cfg', 'template-fb2.xml')
-    with open(path) as f:
-        tmpl = str(f.read())
-
-    pars = {'author': author, 'title': title, 'date': today,
-            'fulldate': today.ctime(), 'base64cover': 'No Covering Image',
-            'sections': secs}
-    return tmpl.format(**pars)
-
-
-def dump_fb2_section(ind, sec):
-    text = "<section><title><p>{index:04d}</p></title>\n"
-    text += "  <p>{origin:s}</p>\n"
-    text += "  <p>: {phonetics:s}</p>\n"
-    text += "  <p><emphasis>~ {translation:s}</emphasis></p>\n"
-    text += "  <empty-line/>\n"
-    text += ''.join(["    <p>| {!s:s} |{!s:s}: {!s:s} </p>\n"
-                     .format(*row) for row in sec.rows])
-    text += "</section>\n"
-    return text.format(index=ind, **sec.__dict__)
-
-
-def dump_fza_section(ind, sec):
-    text = "<--{index:04d}-->\n"
-    text += "{origin:s}\n: {phonetics:s}\n~ {translation:s}\n"
-    text += ''.join(["| {!s:s} |{!s:s}: {!s:s}\n"
-                     .format(*row) for row in sec.rows])
-    text += '\n'
-    return text.format(index=ind, **sec.__dict__)
-
 
 def get_page(url):
     req = request.urlopen(url)
@@ -196,8 +162,11 @@ if __name__ == '__main__':
     with open(getattr(fl, 'rsp' if bCachedRsp else 'src'), 'r') as src:
         lst = src.readlines()
 
+    efb2 = fb2.Exporter(author='Xz', title=fl.name)
+    efza = fza.Exporter(author='Xz', title=fl.name)
+
     # Write main body
-    with open(fl.fza, 'w') as fza, open(fl.xml, 'w') as xml:
+    with open(fl.fza, 'w') as fza:
         for i, line in enumerate(lst):
             if not bCachedRsp:
                 line = gt.translate(line)
@@ -205,12 +174,12 @@ if __name__ == '__main__':
                     rsp.write(line + '\n')
 
             sec = ResponseParser(line)
-            xml.write(dump_fb2_section(i+1, sec))
-            fza.write(dump_fza_section(i+1, sec))
+            efb2.p_section(i+1, sec)
+            efza.p_section(i+1, sec)
             progress_bar(i, len(lst))
 
-# Cover fb2 in header/footer
-with open(fl.xml) as xml, open(fl.fb2, 'w') as fb2:
-    fb2.write(dump_fb2_doc('Xz', fl.name, xml.read()))
-
-sys.exit(1)
+    # Cover fb2 in header/footer
+    with open(fl.fb2, 'w') as f:
+        f.write(efb2.dump())
+    with open(fl.fza, 'w') as f:
+        f.write(efza.dump())

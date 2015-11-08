@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim: set ts=2 sw=2 sts=2 ft=xhtml: -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{title:s} ({author:s})</title>
+    <style type="text/css">
+        .syn { color:#ff00ff; }
+    </style>
+</head>
+<body>
+    <h3 id="title">Hefty Water</h3>
+
+    <h4 id="s001">001</h4>
+    <p>This document serves to test <span class="syn">Reading System</span> support for the element.
+       There is also a little bit of ... available.</p>
+
+</body>
+</html>
