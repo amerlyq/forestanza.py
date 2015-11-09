@@ -1,70 +1,20 @@
 #!/usr/bin/env python3
 
-import sys
-from os import makedirs, path as fs
 from collections import Iterable
-
-import yaml
 
 from forestanza import __appname__
 from forestanza.common import dict_resolve, dict_flatten, getcolumn
-
-
-class FileLoader:
-    CONFIGDIR = fs.dirname(fs.abspath(sys.argv[0]))
-    CACHEDIR = fs.join(fs.expanduser('~/.cache'), __appname__)
-
-    def expand_pj(path):
-        if isinstance(path, list):
-            path = fs.join(*path)
-        if not isinstance(path, str):
-            return path
-        elif path.startswith(":/"):
-            return fs.join(FileLoader.CONFIGDIR, path[2:])
-        elif path.startswith("@/"):
-            if not fs.exists(FileLoader.CACHEDIR):
-                makedirs(FileLoader.CACHEDIR)
-            return fs.join(FileLoader.CACHEDIR, path[2:])
-
-    def import_yaml(name):
-        path = [':', 'cfg', name + '.yml']
-        with open(FileLoader.expand_pj(path)) as f:
-            return yaml.safe_load(f)
-
-    def export_cache(name, lines):
-        path = ['@', name + '.vim']
-        with open(FileLoader.expand_pj(path), 'w') as f:
-            f.writelines(lines)
+from forestanza import io
 
 
 class ParseError(Exception):
     """Base class for this program exceptions."""
     pass
 
-
-def _F_selector(key, idx, main=False):
-    def selector_instance(entry):
-        ## WARNING can't be dict, as Flatten will expand all items!
-        # if isinstance(entry, (dict, OrderedDict)):
-        #     return entry.get(key)
-        if isinstance(entry, (list, tuple)):
-            if not entry or idx >= len(entry):
-                return None
-            if not isinstance(entry[idx], (str, int)):
-                raise ParseError()
-            return entry[idx]
-        if isinstance(entry, (str, int)):
-            return entry if main else None
-    return selector_instance
-
-
-class SynGen:
-    CLROPTS = ['ctermfg', 'guifg', 'ctermbg', 'guibg']
-    SYNFMT = "syn match fza_{:s} display '\\v\\c{:s}'\n"
-
+class ForestanzaDOM:
     def __init__(self, lang):
-        clrs = FileLoader.import_yaml('colorscheme')
-        lexs = FileLoader.import_yaml('lexems-' + lang)
+        clrs = io.import_yaml('colorscheme')
+        lexs = io.import_yaml('lexems-' + lang)
         self.clr = {}
         self.dom = list(self.process(clrs, lexs))
 
@@ -76,24 +26,28 @@ class SynGen:
                 self.clr[grp] = cval if isinstance(cval, list) else [cval]
             yield (chain, grp, getcolumn(words, 0), getcolumn(words, 1))
 
-    def make_from(self, idx):
-        for entry in self.dom:
+class VimSynGen:
+    CLROPTS = ['ctermfg', 'guifg', 'ctermbg', 'guibg']
+    SYNFMT = "syn match fza_{:s} display '\\v\\c{:s}'\n"
+
+    def make_from(dom, idx):
+        for entry in dom.dom:
             rgx = '|'.join(entry[idx])
             if rgx:
-                yield (SynGen.SYNFMT.format(entry[1], rgx))
+                yield (VimSynGen.SYNFMT.format(entry[1], rgx))
 
-    def colors(self):
-        for grp, clr in sorted(self.clr.items()):
+    def colors(dom):
+        for grp, clr in sorted(dom.clr.items()):
             higlt = "hi def fza_{:s}".format(grp)
             for i, v in enumerate(clr):
-                higlt += ' {:s}={:s}'.format(SynGen.CLROPTS[i], str(v))
+                higlt += ' {:s}={:s}'.format(VimSynGen.CLROPTS[i], str(v))
             yield higlt + "\n"
 
 
 # NOTE additional fields in word is not supposed to be included into syntax
 # highlighting, but can be used for generating popups in some markups.
 if __name__ == '__main__':
-    syntax = SynGen('jap')
-    FileLoader.export_cache('origin', syntax.make_from(2))
-    FileLoader.export_cache('phonetic', syntax.make_from(3))
-    FileLoader.export_cache('colors', syntax.colors())
+    dom = ForestanzaDOM('jap')
+    io.export_cache('origin', VimSynGen.make_from(dom, 2))
+    io.export_cache('phonetic', VimSynGen.make_from(dom, 3))
+    io.export_cache('colors', VimSynGen.colors(dom))
