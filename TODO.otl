@@ -37,6 +37,8 @@ DEV plugin for vim: specific highlighting and editing optimization
 	Consider as the best idea, especially for ranobe translation process.
 	[_] Shortcuts to fast populate *.yml with new words
 		:? open split with local .yml, fast open ',.[0-9]' common .yml
+	[_] Regex convert
+		https://github.com/othree/eregex.vim/blob/master/plugin/eregex.vim
 
 
 DEV

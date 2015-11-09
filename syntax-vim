@@ -1,53 +1,55 @@
 #!/usr/bin/env python3
 
-from collections import Iterable
-
-from forestanza import __appname__
 from forestanza.common import dict_resolve, dict_flatten, getcolumn
-from forestanza import io
 
-
-class ParseError(Exception):
-    """Base class for this program exceptions."""
-    pass
 
 class ForestanzaDOM:
-    def __init__(self, lang):
-        clrs = io.import_yaml('colorscheme')
-        lexs = io.import_yaml('lexems-' + lang)
+    def __init__(self, clrs, lexs):
+        self._clrs = clrs
+        self._lexs = lexs
         self.clr = {}
-        self.dom = list(self.process(clrs, lexs))
 
-    def process(self, clrs, lexs):
-        for chain, words in dict_flatten(lexs):
-            cchn, cval = dict_resolve(clrs, chain)
+    def data(self):
+        for chain, words in dict_flatten(self._lexs):
+            cchn, cval = dict_resolve(self._clrs, chain)
             grp = ''.join(cchn)
             if grp not in self.clr:
                 self.clr[grp] = cval if isinstance(cval, list) else [cval]
             yield (chain, grp, getcolumn(words, 0), getcolumn(words, 1))
 
-class VimSynGen:
-    CLROPTS = ['ctermfg', 'guifg', 'ctermbg', 'guibg']
-    SYNFMT = "syn match fza_{:s} display '\\v\\c{:s}'\n"
+    def colors(self):
+        return self.clr.items()
 
-    def make_from(dom, idx):
-        for entry in dom.dom:
+
+class VimSynGen:
+    SYNFMT = "syn match fza_{:s} display '\\v\\c{:s}'\n"
+    HLFMT = "hi def fza_{:s} {:s}\n"
+    COPTS = ['ctermfg', 'guifg', 'ctermbg', 'guibg']
+
+    def __init__(self, dom):
+        self._dom = dom
+        self.origin = self.make_from(2)
+        self.phonet = self.make_from(3)
+        self.colors = self.colors()
+
+    def make_from(self, idx):
+        for entry in self._dom.data():
             rgx = '|'.join(entry[idx])
             if rgx:
                 yield (VimSynGen.SYNFMT.format(entry[1], rgx))
 
-    def colors(dom):
-        for grp, clr in sorted(dom.clr.items()):
-            higlt = "hi def fza_{:s}".format(grp)
-            for i, v in enumerate(clr):
-                higlt += ' {:s}={:s}'.format(VimSynGen.CLROPTS[i], str(v))
-            yield higlt + "\n"
+    def colors(self):
+        for grp, clr in sorted(self._dom.colors()):
+            opts = ['{:s}={!s:s}'.format(*L) for L in zip(VimSynGen.COPTS, clr)]
+            yield VimSynGen.HLFMT.format(grp, ' '.join(opts))
 
 
 # NOTE additional fields in word is not supposed to be included into syntax
 # highlighting, but can be used for generating popups in some markups.
 if __name__ == '__main__':
-    dom = ForestanzaDOM('jap')
-    io.export_cache('origin', VimSynGen.make_from(dom, 2))
-    io.export_cache('phonetic', VimSynGen.make_from(dom, 3))
-    io.export_cache('colors', VimSynGen.colors(dom))
+    from forestanza import io
+    dom = ForestanzaDOM(io.import_yaml('colorscheme'), io.import_yaml('lexems-' + 'jap'))
+    synvim = VimSynGen(dom)
+    io.export_cache('origin', synvim.origin)
+    io.export_cache('phonetic', synvim.phonet)
+    io.export_cache('colors', synvim.colors)
