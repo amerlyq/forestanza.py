@@ -27,13 +27,13 @@ Lore:
 
 Pointers:
   Places:
-    - 何
-    - ['(っ)@2<![こそあ]%(れ|の|こ|っち|んな)', '<%(ko|so|a)%(re|no|ko|tta|nna)>']
+    - 何  # below: (っ)@2<!...
+    - ['[こそあ](れ|の|こ|っち|んな)', '<(ko|so|a)(re|no|ko|tta|nna)>']
   Arentknow: [眼差, 視線, 突然]
   Direction: [今, 唯, 向, 先, 結局, 外, 後, 内, 他, 前]
   Moredirs:  [こと, 周囲, 天井, 場所]
 
-Properties: [ 一., 地面, 大丈夫]
+Properties: [ "一[^\x00-\xff]", 地面, 大丈夫]
 
 Suffixes:
   Topics:   [[を, <o>], [は, <wa>], [の, <no>], [で, <de>]]
@@ -44,9 +44,9 @@ Suffixes:
 
 Verbs:
   Existence: [ない, めろ, いろ, [いる, iru>]]
-  Past: [のだ, だろう=, ようだ, だった]
+  Past: [のだ, 'だろう?', ようだ, だった]
   Xz: [しまった, みたい]
-  Become: [[なる, naru, become], [れる, reru>], [して, shite], [したら=, shita%(ra)=]]
+  Become: [[なる, naru, become], [れる, reru>], [して, shite], ['したら?', 'shita(ra)?']]
 
 Auxiliary:
   Linkage:
@@ -54,7 +54,7 @@ Auxiliary:
 
 Speech:
   - [言, という, <to iu>]
-  - [事実=, kotoba, words]
+  - ['事実?', kotoba, words]
   - [推測, suisoku, guess]
   - [思, <omo, think]
   - [考え, kangae, consider]
@@ -64,7 +64,7 @@ Service:
   L1: [全く, もう, しかし, そして, マジ, だから, すら]
   L2: [だが, また, と共に, 取り敢えず, どうやら, もっと]
   L3: [なら, より, ただ, なり, なく]
-  L4: [クソ%(ッタレ)=, きゃ]
+  L4: ['クソ(ッタレ)?', きゃ]
   L5:
     - [代わり, kawari, instead]
     - [確か, <tashika, certainly|indeed]
@@ -76,5 +76,5 @@ Pronouns:
   Me:
     - [妾, <mekake>]
   High: [ 奴, 達, 方 ]
-  You:  [ 自身, [自分, <jibun>], お前等=, ご主人様 ]
-  They: [ 幼馴染, メンバー, こいつら=, 連中 ]
+  You:  [ 自身, [自分, <jibun>], 'お前等?', ご主人様 ]
+  They: [ 幼馴染, メンバー, 'こいつら?', 連中 ]

@@ -1,5 +1,6 @@
 import re
 from forestanza import io
+from forestanza.syntax import xhtml
 
 EXT = '.xhtml'
 
@@ -27,14 +28,15 @@ rgx_kana = re.compile(u"([\u3041-\u3096\u30A0-\u30FA]+)")
 
 
 class Exporter:
-    def __init__(self, **kw):
+    def __init__(self, dom, **kw):
         self.metainfo = kw
         self.template = io.import_template(__file__, 'xhtml.xml')
         self.style = io.import_template(__file__, 'xhtml.css')
         self.sections = []
+        self.synxhtml = xhtml.SynGenXHTML(dom)
 
     def dump(self):
-        self.metainfo.update({'css': self.style,
+        self.metainfo.update({'css': self.style + ''.join(self.synxhtml.colors()),
                               'sections': ''.join(self.sections)})
         return self.template.format(**self.metainfo)
 
@@ -44,7 +46,8 @@ class Exporter:
     def p_section(self, ind, sec):
         # DEV: cover 'sec' into colored 'span' syntax
         hl = r'<span class="syn">\1</span>'
+        text = rgx_kana.sub(hl, sec.origin)
         self.sections.append(TSEC.format(
             syntable=''.join([TSYN.format(*row) for row in sec.rows]),
-            index=ind, origin=rgx_kana.sub(hl, sec.origin),
+            index=ind, origin=self.synxhtml.pygment_origin(text),
             phonetics=sec.phonetics, translation=sec.translation))

@@ -1,10 +1,9 @@
-from forestanza import io
-
 EXT = '.fza'
+
 
 # DEV TODO header for fza '0: > ...' -- move common parts in separate function.
 class Exporter:
-    def __init__(self, **kw):
+    def __init__(self, dom, **kw):
         self.metainfo = kw
         self.sections = []
         self.template = ">>> {title:s} ({author:s})\n\n{sections:s}"

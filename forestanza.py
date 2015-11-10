@@ -53,7 +53,7 @@ if __name__ == '__main__':
         io.export_cache(k + '.vim', v)
 
     fts = [fb2, fza, xhtml]
-    exs = [t.Exporter(author='Xz', title=fl.name) for t in fts]
+    exs = [t.Exporter(dom, author='Xz', title=fl.name) for t in fts]
 
     # Write main body
     gt = google.Translator()
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         sec = google.ResponseParser(line)
         for e in exs:
             e.p_section(i+1, sec)
-        progress_bar(i, 100)  # len(lst))
+        # progress_bar(i, 100)  # len(lst))
 
     for t, e in zip(fts, exs):
         io.export_cache(fl.name + t.EXT, lambda: e.dump())

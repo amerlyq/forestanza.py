@@ -6,7 +6,7 @@ EXT = '.fb2'
 
 
 class Exporter:
-    def __init__(self, **kw):
+    def __init__(self, dom, **kw):
         self.metainfo = kw
         self.template = io.import_template(__file__, 'fb2.xml')
         self.sections = []
