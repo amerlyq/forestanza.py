@@ -1,3 +1,4 @@
+import re
 from forestanza import io
 
 EXT = '.xhtml'
@@ -21,15 +22,15 @@ TSYN = """<tr>
 <td>{!s:s}</td>
 </tr>\n"""
 
-import re
 
 rgx_kana = re.compile(u"([\u3041-\u3096\u30A0-\u30FA]+)")
+
 
 class Exporter:
     def __init__(self, **kw):
         self.metainfo = kw
-        self.template = io.load_around(__file__, 'xhtml.xml')
-        self.style = io.load_around(__file__, 'xhtml.css')
+        self.template = io.import_template(__file__, 'xhtml.xml')
+        self.style = io.import_template(__file__, 'xhtml.css')
         self.sections = []
 
     def dump(self):

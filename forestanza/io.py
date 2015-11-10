@@ -1,4 +1,5 @@
 import sys
+import types
 from os import makedirs, path as fs
 
 import yaml
@@ -8,34 +9,44 @@ from forestanza import __appname__
 CONFIGDIR = fs.dirname(fs.abspath(sys.argv[0]))
 CACHEDIR = fs.join(fs.expanduser('~/.cache'), __appname__)
 
+
 def expand_pj(path, around=None):
+    if not isinstance(path, (list, str)):
+        raise ValueError()
     if isinstance(path, list):
         path = fs.join(*path)
-    if not isinstance(path, str):
-        return path
-    elif path.startswith(":/"):
+    # TODO: split by '/|\\' and join back to uniform?
+    if around:
+        return fs.join(fs.dirname(fs.realpath(around)), path)
+    elif path.startswith(":"):
         return fs.join(CONFIGDIR, path[2:])
-    elif path.startswith("@/"):
+    elif path.startswith("@"):
         if not fs.exists(CACHEDIR):
             makedirs(CACHEDIR)
         return fs.join(CACHEDIR, path[2:])
 
-def import_data(path):
-    with open(path) as f:
-        data = str(f.read())
+
+def import_template(file__, name):
+    with open(expand_pj(name, around=file__)) as f:
+        data = f.read()
     return data
 
+
 def import_yaml(name):
-    path = [':', 'cfg', name + '.yml']
-    with open(expand_pj(path)) as f:
+    with open(expand_pj([':', 'cfg', name + '.yml'])) as f:
         return yaml.safe_load(f)
 
-def load_around(file__, name):
-    path = fs.join(fs.dirname(fs.realpath(file__)), name)
-    return import_data(path)
 
-def export_cache(name, lines):
-    path = ['@', name + '.vim']
-    with open(expand_pj(path), 'w') as f:
-        f.writelines(lines)
-
+def export_cache(relpath, data, keep=False):
+    path = expand_pj(['@', relpath])
+    if keep and fs.exists(path):
+        return
+    with open(path, 'w') as f:
+        if isinstance(data, types.FunctionType):
+            data = data()
+        if isinstance(data, (list, types.GeneratorType)):
+            f.writelines(data)
+        elif isinstance(data, str):
+            f.write(data)
+        else:
+            raise TypeError(data)

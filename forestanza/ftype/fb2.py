@@ -4,10 +4,11 @@ import datetime
 
 EXT = '.fb2'
 
+
 class Exporter:
     def __init__(self, **kw):
         self.metainfo = kw
-        self.template = io.load_around(__file__, 'fb2.xml')
+        self.template = io.import_template(__file__, 'fb2.xml')
         self.sections = []
 
     def dump(self):
