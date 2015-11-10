@@ -20,6 +20,18 @@ Japanese & linux
 		:	Yet Another Japanese Dependency Structure Analyzer
 		: aur/python-cabocha 0.69-1 (1)
 
+	Dics & Translators
+	SEE http://habrahabr.ru/company/epam_systems/blog/160309/
+		Jap
+		: Гугл и yakusu.ru aka lvoff.com (словарь японского)
+		: yarxi.ru (онлайн-словарь иероглифов Jp-Ru) не пробовали или не понравилось?
+		: Те же авторы развивают переводчик ЯРП: www.yarp-online.ru/, в
+		: последний раз, когда я смотрел, переводил не всегда хорошо, но зато
+		: давал бесценный лексический разбор предложения.  Для япа еще:
+		: imiwa (оффлайн, для IOS), Lingvo+БЯРС (оффлайн, PC), Rikaichan (Firefox),
+		: Rikaikun (Хром)-расширение для браузера, показывает перевод слова
+		: под курсором
+
 
 Interesting, but no japanese translation
 	https://www.apertium.org/index.eng.html?dir=srp-eng#translation

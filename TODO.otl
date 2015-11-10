@@ -3,6 +3,7 @@ SEE
 		https://github.com/soimort/translate-shell
 		http://pythonhosted.org/goslate/
 
+Formats generators
 	fb2
 		https://github.com/IvanAnishchuk/fb2-vim
 		https://github.com/lintest/fb2edit
@@ -10,6 +11,9 @@ SEE
 
 	epub
 		http://web.sigil.googlecode.com/git/files/OEBPS/Text/tutorial_stylesheets.html
+
+	xhtml
+		[_] DEV Copy to clipboard on press (individual words) in table column
 
 
 Read fb2
