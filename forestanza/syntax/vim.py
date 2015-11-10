@@ -7,10 +7,11 @@ class SynGenVim:
     def __init__(self, dom):
         self._dom = dom
 
+    # WARNING: can't use dict, as I need fixed order on function calls!
     def ddump(self):
-        return {'origin': self.make_from(2),
-                'phonetic': self.make_from(3),
-                'colors': self.colors()}
+        return (('origin', self.make_from(2)),
+                ('phonetic', self.make_from(3)),
+                ('colors', self.colors()))
 
     def make_from(self, idx):
         for entry in self._dom.data():

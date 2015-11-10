@@ -1,13 +1,29 @@
 import sys
 import types
-from os import makedirs, path as fs
+from os import getenv, makedirs, path as fs
 
 import yaml
 
 from forestanza import __appname__
 
+
+def _dst_chooser():
+    sdcard = fs.join('/mnt', '0', 'Books')
+    if 'android' == getenv('USER') and fs.isdir(sdcard):
+        return sdcard
+    cache = fs.expanduser('~/.cache')
+    if fs.isdir(cache):
+        return cache
+    return getenv('TMPDIR') or fs.join('/tmp', getenv('USER'))
+
 CONFIGDIR = fs.dirname(fs.abspath(sys.argv[0]))
-CACHEDIR = fs.join(fs.expanduser('~/.cache'), __appname__)
+DSTDIR = fs.join(_dst_chooser(), __appname__)
+
+
+def clean_cache(name):
+    import glob, os
+    for f in glob.glob(fs.join(DSTDIR, name + '.*')):
+        os.remove(f)
 
 
 def expand_pj(path, around=None):
@@ -21,9 +37,9 @@ def expand_pj(path, around=None):
     elif path.startswith(":"):
         return fs.join(CONFIGDIR, path[2:])
     elif path.startswith("@"):
-        if not fs.exists(CACHEDIR):
-            makedirs(CACHEDIR)
-        return fs.join(CACHEDIR, path[2:])
+        if not fs.exists(DSTDIR):
+            makedirs(DSTDIR)
+        return fs.join(DSTDIR, path[2:])
 
 
 def import_template(file__, name):
