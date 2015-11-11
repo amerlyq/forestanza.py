@@ -6,10 +6,12 @@ body {
     line-height: 1;
     background-color: #130901;
     color: #ffd47f;
+    font-size: 100%;
 }
 h3 {
     margin-bottom: 0.6em;
     color: #00ee22;
+    font-size: 200%;
 }
 
 p {
@@ -18,27 +20,38 @@ p {
 }
 
 table {
+    width: 100%;
     margin-top: 1em;
     vertical-align: top;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     border-spacing: 0;
     border-collapse: collapse;
+    font-size: 120%;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) {
+    background: #202018;
 }
 .table td, .table th {
     text-align: right;
-    font-size: large;
     padding-left: 0.6em;
     padding-right: 0.6em;
+    font-size: 120%;
 }
 #right, .table td + td, .table th + th {
     text-align: left;
-    font-size: small;
     border-left: 1px solid;
+    font-size: 100%;
 }
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  { /* Force table to not be like tables anymore */ table, thead, tbody, th, td, tr { display: block; } /* Hide table headers (but not display: none;, for accessibility) */ thead tr { position: absolute; top: -9999px; left: -9999px; } tr { border: 1px solid #ccc; } td { /* Behave  like a "row" */ border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 50%; } td:before { /* Now like a table header */ position: absolute; /* Top/left values mimic padding */ top: 6px; left: 6px; width: 45%; padding-right: 10px; white-space: nowrap; } /*
+        Label the data
+            */ td:nth-of-type(1):before { content: "First Name"; } td:nth-of-type(2):before { content: "Last Name"; } td:nth-of-type(3):before { content: "Job Title"; } td:nth-of-type(4):before { content: "Favorite Color"; } td:nth-of-type(5):before { content: "Wars of Trek?"; } td:nth-of-type(6):before { content: "Porn Name"; } td:nth-of-type(7):before { content: "Date of Birth"; } td:nth-of-type(8):before { content: "Dream Vacation City"; } td:nth-of-type(9):before { content: "GPA"; } td:nth-of-type(10):before { content: "Arbitrary Data"; } }
 
 /* Mark-up */
 .main {
-    font-size: larger;
+    font-size: 200%;
 }
 .origin {
     font-family: monospace;

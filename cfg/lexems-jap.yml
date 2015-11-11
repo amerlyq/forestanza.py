@@ -28,10 +28,12 @@ Lore:
 Pointers:
   Places:
     - 何  # below: (っ)@2<!...
-    - ['[こそあ](れ|の|こ|っち|んな)', '<(ko|so|a)(re|no|ko|tta|nna)>']
+    - ['[こそあど](れ|の|こ|っち|んな)', '<(ko|so|a|do)(re|no|ko|tta|n''?na)>']
   Arentknow: [眼差, 視線, 突然]
   Direction: [今, 唯, 向, 先, 結局, 外, 後, 内, 他, 前]
-  Moredirs:  [こと, 周囲, 天井, 場所]
+  Moredirs:  [こと, [周囲, Shūi, '(sur)?around'], 天井, 場所]
+  Abstract:
+    - [仕方, shikata, way|manner|choice]
 
 Properties: [ "一[^\x00-\xff]", 地面, 大丈夫]
 

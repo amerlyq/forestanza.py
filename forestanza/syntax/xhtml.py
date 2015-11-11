@@ -1,8 +1,8 @@
+import re
+
 SYNFMT = '<span class="fza {!s:s}">\\1</span>'
 HLFMT = ".fza.{group:s} {{ color: {guifg:s}; }}\n"
 COPTS = ['ctermfg', 'guifg', 'ctermbg', 'guibg']
-
-import re
 
 
 class SynGenXHTML:
@@ -24,10 +24,10 @@ class SynGenXHTML:
 
     def make_from(self, idx):
         for entry in self._dom.data():
-            rgx = ('|'.join(entry[idx])).replace('<', r'\b').replace('>', r'\b')
+            rgx = ('|'.join(entry[idx])).replace('<', r'\b').replace('>', r'\b').replace('(', r'(?:')
             print(rgx)
             if rgx:
-                yield (re.compile('(' + rgx + ')'), SYNFMT.format(entry[1]))
+                yield (re.compile('(?!>)(' + rgx + ')(?!<)'), SYNFMT.format(entry[1]))
 
     def colors(self):
         for grp, clr in sorted(self._dom.colors()):

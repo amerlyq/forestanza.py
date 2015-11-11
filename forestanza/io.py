@@ -8,9 +8,9 @@ from forestanza import __appname__
 
 
 def _dst_chooser():
-    sdcard = fs.join('/mnt', '0', 'Books')
-    if 'android' == getenv('USER') and fs.isdir(sdcard):
-        return sdcard
+    # sdcard = fs.join('/mnt', '0', 'Books')
+    # if 'android' == getenv('USER') and fs.isdir(sdcard):
+    #     return sdcard
     cache = fs.expanduser('~/.cache')
     if fs.isdir(cache):
         return cache
