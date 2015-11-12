@@ -1,8 +1,9 @@
+from collections import abc
 
 ## Maps list chain over dict with default values
 KEYDEF = '_'
 def dict_resolve(obj, chain, i=0):
-    if not isinstance(obj, dict) or i >= len(chain):
+    if not isinstance(obj, abc.Mapping) or i >= len(chain):
         return (chain[:i], obj)
     if chain[i] in obj:
         ret = dict_resolve(obj[chain[i]], chain, i+1)
@@ -20,8 +21,8 @@ def dict_resolve(obj, chain, i=0):
 # DEV: nested lists for one key-value -- to split lexems logically w/o name.
 #   := elif isinstance(obj, list) and isinstance(obj[0], list):
 def dict_flatten(obj, chain=[]):
-    for k, v in sorted(obj.items()):
-        if isinstance(v, dict):
+    for k, v in obj.items():
+        if isinstance(v, abc.Mapping):
             yield from dict_flatten(v, chain + [k])
         else:
             yield (chain + [k], v)
@@ -29,7 +30,7 @@ def dict_flatten(obj, chain=[]):
 
 def getcolumn(obj, idx):
     for e in obj:
-        if isinstance(e, (list, tuple)):
+        if isinstance(e, abc.Iterable):
             if idx < len(e):
                 yield e[idx]
         elif idx == 0:
@@ -37,7 +38,7 @@ def getcolumn(obj, idx):
 
 
 def dict_intersect(obj, mask):
-    if not isinstance(obj, dict) or not isinstance(mask, dict):
+    if (not isinstance(obj, abc.Mapping) or not isinstance(mask, abc.Mapping)):
         return obj
     return {k: v if KEYDEF == k else dict_intersect(v, mask[k])
             for k, v in obj.items()

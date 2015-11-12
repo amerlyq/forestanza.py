@@ -1,6 +1,7 @@
 import sys
 import types
 from os import getenv, makedirs, path as fs
+from collections import OrderedDict
 
 import yaml
 
@@ -19,9 +20,15 @@ def _dst_chooser():
 CONFIGDIR = fs.dirname(fs.abspath(sys.argv[0]))
 DSTDIR = fs.join(_dst_chooser(), __appname__)
 
+yaml.add_constructor(
+    'tag:yaml.org,2002:map',
+    lambda ldr, node: OrderedDict(ldr.construct_pairs(node)),
+    Loader=yaml.SafeLoader)
+
 
 def clean_cache(name):
-    import glob, os
+    import os
+    import glob
     for f in glob.glob(fs.join(DSTDIR, name + '.*')):
         os.remove(f)
 

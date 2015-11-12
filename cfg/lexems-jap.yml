@@ -35,7 +35,8 @@ Pointers:
   Abstract:
     - [仕方, shikata, way|manner|choice]
 
-Properties: [ "一[^\x00-\xff]", 地面, 大丈夫]
+# "一[^\u0000-\u3000]"
+Properties: [ 地面, 大丈夫]
 
 Suffixes:
   Topics:   [[を, <o>], [は, <wa>], [の, <no>], [で, <de>]]
@@ -45,10 +46,19 @@ Suffixes:
   Question: [[か>, <ka>]]
 
 Verbs:
-  Existence: [ない, めろ, いろ, [いる, iru>]]
+  Existence:
+    - [めろ, aru>, be]
+    - [ない, nai, be not]
+    - [いる, iru>, be]
+    - [いた, ita>, was]
   Past: [のだ, 'だろう?', ようだ, だった]
   Xz: [しまった, みたい]
-  Become: [[なる, naru, become], [れる, reru>], [して, shite], ['したら?', 'shita(ra)?']]
+  Become:
+    - [した, shita, did]
+    - [して, shite, having done]
+    - [なる, naru, become]
+    - [れる, reru>]
+    - ['したら?', 'shita(ra)?']
 
 Auxiliary:
   Linkage:
