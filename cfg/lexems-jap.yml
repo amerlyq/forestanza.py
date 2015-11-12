@@ -25,62 +25,6 @@ Lore:
     - [転送, 魔法, 結界, 障壁, 分解]
 
 
-Pointers:
-  Places:
-    - 何  # below: (っ)@2<!...
-    - ['[こそあど](れ|の|こ|っち|んな)', '<(ko|so|a|do)(re|no|ko|tta|n''?na)>']
-  Arentknow: [眼差, 視線, 突然]
-  Direction: [今, 唯, 向, 先, 結局, 外, 後, 内, 他, 前]
-  Moredirs:  [こと, [周囲, Shūi, '(sur)?around'], 天井, 場所]
-  Abstract:
-    - [仕方, shikata, way|manner|choice]
-
-# "一[^\u0000-\u3000]"
-Properties: [ 地面, 大丈夫]
-
-Suffixes:
-  Topics:   [[を, <o>], [は, <wa>], [の, <no>], [で, <de>]]
-  Sequence: [[も, <mo>], [<や>, <ya>]]
-  Reasons:  [[から, kara>], [まで, made>], つつ]
-  Alterate: [[する, suru>], [ほど, hodo>]]
-  Question: [[か>, <ka>]]
-
-Verbs:
-  Existence:
-    - [めろ, aru>, be]
-    - [ない, nai, be not]
-    - [いる, iru>, be]
-    - [いた, ita>, was]
-  Past: [のだ, 'だろう?', ようだ, だった]
-  Xz: [しまった, みたい]
-  Become:
-    - [した, shita, did]
-    - [して, shite, having done]
-    - [なる, naru, become]
-    - [れる, reru>]
-    - ['したら?', 'shita(ra)?']
-
-Auxiliary:
-  Linkage:
-    - [ため, <tame>, "in order to", ради]
-
-Speech:
-  - [言, という, <to iu>]
-  - ['事実?', kotoba, words]
-  - [推測, suisoku, guess]
-  - [思, <omo, think]
-  - [考え, kangae, consider]
-  - [疑問, gimon, question]
-
-Service:
-  L1: [全く, もう, しかし, そして, マジ, だから, すら]
-  L2: [だが, また, と共に, 取り敢えず, どうやら, もっと]
-  L3: [なら, より, ただ, なり, なく]
-  L4: ['クソ(ッタレ)?', きゃ]
-  L5:
-    - [代わり, kawari, instead]
-    - [確か, <tashika, certainly|indeed]
-
 Pronouns:
   I:
     - [私, watakusi|watasi|<atasi]
@@ -91,4 +35,95 @@ Pronouns:
   You:  [ 自身, [自分, <jibun>], 'お前等?', ご主人様 ]
   They: [ 幼馴染, メンバー, 'こいつら?', 連中 ]
 
-Kana: [["[\u3041-\u3096\u30A0-\u30FA]+"]]
+
+Pointers:
+  Places:
+    - 何
+    - ['何とも', nantomo, anything]
+  # below: (っ)@2<!...
+    - ['[こそあど](れ|の|こ|っち|んな)', '<(ko|so|a|do)(re|no|ko|tta|n''?na)>']
+  Arentknow: [眼差, 視線, 突然]
+  Direction: [今, 唯, 向, 先, 結局, 外, 後, 内, 他, 前]
+  Moredirs:  [こと, [周囲, Shūi, '(sur)?around'], 天井, 場所]
+  Abstract:
+    - [仕方, shikata, way|manner|choice]
+
+Properties: [ "一[^\u0000-\u3000]", 地面, 大丈夫]
+
+
+Auxiliary:
+  Linkage:
+    - [ため, <tame>, "in order to", ради]
+    - ['ように?', <yō ni>, "as like", подобно]
+    - [らしい, rashī, likely]
+    - [だけ, dake, just|only|simply]
+    - ['そうな?', sōna, 'being as']
+  Explanatory:
+    - [なのだ, nanoda, 'describe state-of-being']
+    - ['[のん]だ', 'no?da', 'explain reasons']
+
+Time:
+  - [いつも, itsumo, always]
+
+Speech:
+  - [言, という, <to iu>]
+  - ['事実?', kotoba, words]
+  - [推測, suisoku, guess]
+  - [思, <omo, think]
+  - [考え, kangae, consider]
+  - [疑問, gimon, question]
+
+
+Service:
+  L1: [全く, もう, しかし, そして, マジ, だから, すら]
+  L2: [だが, また, と共に, 取り敢えず, どうやら, もっと]
+  L3: [なら, より, ただ, なり, なく]
+  L4: ['クソ(ッタレ)?', きゃ]
+  L5:
+    - [少し, sukoshi, slightly]
+    - [代わり, kawari, instead]
+    - [確か, <tashika, certainly|indeed]
+
+
+Verbs:
+  Existence:
+    Animate:
+    - [いる, iru>, be]
+    - [いら, ira>, being]
+    - [いた, ita>, was]
+    Inanimate:
+    - [ある, aru>, is|exist]
+    - [ない, nai, not is]
+    - [なかった, nakatta, not was]
+    X:
+    - [じゃ, ja]
+    - [だ>, da>]
+    - [だった>, datta]
+  Past: [のだ, 'だろう?', ようだ, だった]
+  Xz: [しまった, みたい]
+  Make:
+    - [した, shita, did]
+    - [して, shite, having done, сделанный]
+  Become:
+    - [きた, kita, come]
+    - [なる, naru, become]
+    - [れる, reru>]
+    - ['したら?', 'shita(ra)?']
+
+
+Particles:
+  Topics:    [[は, <wa>, 'declare/replace topic'], [を, <o>], [が, <ga>]]
+  Sequence:
+    - [<も>, <mo>, 'attach to topic']
+    - [<とか>, <toka>, 'vague listing']
+    - [<や>, <ya>]
+    - [<と>, <to>, '-with']
+  Attribute:   [[の, <no>, принадлежность], [で, <de>]]
+  Reasons:     [[から, kara>], [まで, made>], つつ]
+  Alterate:    [[する, suru>], [ほど, hodo>]]
+  Question:    [[か>, <ka>]]
+
+
+Rest:
+  Hiragana: ["[\u3041-\u3096]+"]
+  Katakana: ["[\u30A0-\u30FA]+"]

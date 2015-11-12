@@ -3,20 +3,10 @@
 # _ - Main color to inherit on all same and deeper levels.
 # Keys \w under _: searched on same level of all inherited groups.
 # When omitted -- allows the surrounding syntax regions to affect color.
-_: [12, '#98c6ef']  # Used in term-only
+_: [12, '#98c6ef']
 
-Characters: [7, '#d0cfca']
-Lore: [228, '#ffff87']
-
-Pointers: [45, '#00d7ff']
-Properties: [105, '#8787ff']
-Suffixes: [112, '#97f700']
-Verbs: [214, '#ffaf00']
-
-Speech: [39, '#00afff']
-
-Service: [177, '#d787ff']
-
+Characters: [7, '#ffffff']
+Lore: [228, '#ffff70']
 Pronouns:
   _: [203, '#ff5f5f']  # USE by position
   # I: 204
@@ -25,7 +15,16 @@ Pronouns:
   #   some: 4
   # cry: *hi
 
-Kana: [216, '#ffd47f']
+Pointers: [45, '#00d7ff']
+Properties: [105, '#8787ff']
+
+Auxiliary: [213, '#ffa0ff']
+Speech: [39, '#00afff']
+Service: [177, '#d787ff']
+
+Verbs: [214, '#ffaf00']
+Particles: [112, '#97f700']
+Rest: [216, '#ffd47f']
 
 # Key dict, if need more variations -- BUT how then to flatten yaml?
 # Auxiliary: {term: 33, gui: '#330011'}
