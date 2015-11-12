@@ -22,12 +22,18 @@ class SynGenXHTML:
             text = r.sub(s, text)
         return text
 
+    def perl_convert(self, rgx):
+        rgx = rgx.replace('<', r'\b').replace('>', r'\b').replace('(', r'(?:')
+        # NOTE If overlapping is allowed -- by '.' at beg or end -- skip side checking
+        rgx = '(?!<span[^<>]*>)(' + rgx + ')(?!</span>)'
+        print(rgx)
+        return rgx
+
     def make_from(self, idx):
         for entry in self._dom.data():
-            rgx = ('|'.join(entry[idx])).replace('<', r'\b').replace('>', r'\b').replace('(', r'(?:')
-            print(rgx)
+            rgx = self.perl_convert('|'.join(entry[idx]))
             if rgx:
-                yield (re.compile('(?!>)(' + rgx + ')(?!<)'), SYNFMT.format(entry[1]))
+                yield (re.compile(rgx), SYNFMT.format(entry[1]))
 
     def colors(self):
         for grp, clr in sorted(self._dom.colors()):

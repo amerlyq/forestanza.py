@@ -1,4 +1,3 @@
-import re
 from forestanza import io
 from forestanza.syntax import xhtml
 
@@ -6,7 +5,7 @@ EXT = '.xhtml'
 
 TSEC = """
 <h3 id="s{index:04d}">{index:04d}</h3>
-<p class="main origin">
+<p class="origin">
   {origin:s}
 </p><p class="phonet">
   : {phonetics:s}
@@ -24,9 +23,6 @@ TSYN = """<tr>
 </tr>\n"""
 
 
-rgx_kana = re.compile(u"([\u3041-\u3096\u30A0-\u30FA]+)")
-
-
 class Exporter:
     def __init__(self, dom, **kw):
         self.metainfo = kw
@@ -40,14 +36,8 @@ class Exporter:
                               'sections': ''.join(self.sections)})
         return self.template.format(**self.metainfo)
 
-    def p_hl(self, nm, rgb):
-        self.style += ".{nm:s} { color: {rgb:s}; }\n".format(locals())
-
     def p_section(self, ind, sec):
-        # DEV: cover 'sec' into colored 'span' syntax
-        hl = r'<span class="syn">\1</span>'
-        text = rgx_kana.sub(hl, sec.origin)
         self.sections.append(TSEC.format(
             syntable=''.join([TSYN.format(*row) for row in sec.rows]),
-            index=ind, origin=self.synxhtml.pygment_origin(text),
+            index=ind, origin=self.synxhtml.pygment_origin(sec.origin),
             phonetics=sec.phonetics, translation=sec.translation))

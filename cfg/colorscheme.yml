@@ -10,7 +10,7 @@ Lore: [228, '#ffff87']
 
 Pointers: [45, '#00d7ff']
 Properties: [105, '#8787ff']
-Suffixes: [112, '#87d700']
+Suffixes: [112, '#97f700']
 Verbs: [214, '#ffaf00']
 
 Speech: [39, '#00afff']
@@ -24,6 +24,8 @@ Pronouns:
   #   _: &hi '#aa3300'  # Override gui-only
   #   some: 4
   # cry: *hi
+
+Kana: [216, '#ffd47f']
 
 # Key dict, if need more variations -- BUT how then to flatten yaml?
 # Auxiliary: {term: 33, gui: '#330011'}
