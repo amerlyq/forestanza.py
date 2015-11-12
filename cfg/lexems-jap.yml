@@ -37,7 +37,8 @@ Pronouns:
     - [妾, <mekake>]
   High: [ 奴, 達, 方 ]
   You:  [ 自身, [自分, <jibun>], 'お前等?', ご主人様 ]
-  They: [ 幼馴染, メンバー, 'こいつら?', 連中 ]
+  They: [ 幼馴染, メンバー, 'こいつら?', 連中 , [互, taga, together|each other],
+  ['合(うと)?', 'a(uto)?', mutually]]
 
 
 Pointers:
@@ -61,6 +62,7 @@ Pointers:
     - [考え, kangae, consider]
     - [疑問, gimon, question]
     - [つもり, tsumori, intend]
+  State: [[様子, yōsu, state|how]]
   Arentknow: [眼差, 視線, 突然]
   Direction: [唯, 向, 先, 結局, 外, 後, 内, 他, 前]
   Moredirs:  [こと, [周囲, Shūi, '(sur)?around'], 天井, 場所]
@@ -108,7 +110,7 @@ Verbs:
     - [した, shita, did]
     - [して, shite, having done, сделанный]
   Become:
-    - [きた, kita, come]
+    - ['[来|き]た', kita, come]
     - [なる, naru, become]
     - [なって, natte, having become]
     - [れる, reru>]
