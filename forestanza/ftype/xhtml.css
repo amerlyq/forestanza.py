@@ -61,7 +61,7 @@ only screen and ((orientation: landscape) and (min-device-width: 1440px)) {
 .origin {
     font-size: 150%;
     font-family: monospace;
-    color: #d0cfca;
+    color: #c0cfca;
 }
 .phonet { /*color: #98c6ef;*/ }
 .transl { color: #579e9a; }

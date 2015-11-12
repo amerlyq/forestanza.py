@@ -30,7 +30,7 @@ def dict_flatten(obj, chain=[]):
 
 def getcolumn(obj, idx):
     for e in obj:
-        if isinstance(e, abc.Iterable):
+        if isinstance(e, abc.Iterable) and not isinstance(e, (str, bytes)):
             if idx < len(e):
                 yield e[idx]
         elif idx == 0:

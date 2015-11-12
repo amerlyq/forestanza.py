@@ -5,21 +5,16 @@ EXT = '.xhtml'
 
 TSEC = """
 <h3 id="s{index:04d}">{index:04d}</h3>
-<p class="origin">
-  {origin:s}
-</p><p class="phonet">
-  : {phonetics:s}
-</p><p class="transl">
-  ~ {translation:s}
-</p><table class="table"><tbody>
-{syntable:s}
-</tbody></table><br/>
+<p class="origin">\n  {origin:s}\n</p>
+<p class="phonet">\n  : {phonetics:s}\n</p>
+<p class="transl">\n  ~ {translation:s}\n</p>
+<table class="table"><tbody>\n{syntable:s}\n</tbody></table><br/>
 """
 
 TSYN = """<tr>
-<td><span class="origin">{!s:s}</span></td>
-<!-- <td><span class="phonet">{!s:s}</span></td> -->
-<td>{!s:s}</td>
+  <td class="origin">{!s:s}</td>
+  <!-- <td class="phonet">{!s:s}</td> -->
+  <td>{!s:s}</td>
 </tr>\n"""
 
 
@@ -33,11 +28,14 @@ class Exporter:
 
     def dump(self):
         self.metainfo.update({'css': self.style + ''.join(self.synxhtml.colors()),
+                              'legend': ''.join(self.synxhtml.legend()),
                               'sections': ''.join(self.sections)})
         return self.template.format(**self.metainfo)
 
     def p_section(self, ind, sec):
+        syns = [TSYN.format(self.synxhtml.pygment_origin(org.strip()), pho, trl)
+                for org, pho, trl in sec.rows]
         self.sections.append(TSEC.format(
-            syntable=''.join([TSYN.format(*row) for row in sec.rows]),
-            index=ind, origin=self.synxhtml.pygment_origin(sec.origin),
-            phonetics=sec.phonetics, translation=sec.translation))
+            origin=self.synxhtml.pygment_origin(sec.origin),
+            phonetics=sec.phonetics,  # self.synxhtml.pygment_phonet(sec.phonetics),
+            index=ind, syntable=''.join(syns), translation=sec.translation))

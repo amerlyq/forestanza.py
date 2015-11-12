@@ -9,6 +9,9 @@
   </style>
 </head>
 <body>
+
+{legend:s}
+
   <h2 id="title">{title:s} ({author:s})</h2>
 
 {sections:s}

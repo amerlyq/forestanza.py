@@ -16,6 +16,9 @@ Formats generators
 		[_] DEV Copy to clipboard on press (individual words) in table column
 		>>[_] http://www.html5rocks.com/en/mobile/responsivedesign/
 
+	256 term -> RGB
+		http://www.calmar.ws/vim/256-xterm-24bit-rgb-color-chart.html
+
 
 Read fb2
 	zcat "$1"|xsltproc /usr/local/bin/data/FB2_2_xhtml.xsl -|lynx -stdin -display_charset=UTF-8
