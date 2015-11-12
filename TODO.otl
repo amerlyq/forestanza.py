@@ -15,6 +15,9 @@ Formats generators
 	xhtml
 		[_] DEV Copy to clipboard on press (individual words) in table column
 		>>[_] http://www.html5rocks.com/en/mobile/responsivedesign/
+		[_] DEV popup meaning/transcription on click
+			http://www.sitepoint.com/xhtml-strict-popups/
+			http://accessify.com/features/tutorials/the-perfect-popup/archive/
 
 	256 term -> RGB
 		http://www.calmar.ws/vim/256-xterm-24bit-rgb-color-chart.html

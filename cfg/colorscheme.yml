@@ -9,17 +9,15 @@ Characters: [7, '#ffffff']
 Lore: [228, '#ffff70']
 Pronouns:
   _: [203, '#ff5f5f']  # USE by position
-  # I: 204
-  # highlight:
-  #   _: &hi '#aa3300'  # Override gui-only
-  #   some: 4
-  # cry: *hi
 
-Pointers: [45, '#00d7ff']
+# Back-ref:  k1: &ref1 'value'  ->  k2: *ref1
+Pointers:
+  _: [45, '#00d7ff']
+  Speech: [39, '#00afff']
+
 Properties: [105, '#8787ff']
 
 Auxiliary: [213, '#ffa0ff']
-Speech: [39, '#00afff']
 Service: [177, '#d787ff']
 
 Verbs: [214, '#ffaf00']
