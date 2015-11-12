@@ -1,15 +1,15 @@
-from collections import OrderedDict as od
+from collections import OrderedDict
 
 from forestanza.common import (
     KEYDEF, dict_resolve, dict_flatten, getcolumn)  # , dict_intersect
 
-DATA = od([
-    od([(KEYDEF, 1)]),
-    od([('a', 2)]),
-    od([('b', od([('ib', 5)]))]),
-    od([('c', od([od([(KEYDEF, 3)]), od([('ic', 4)]),
-                  od([('jc', od([('m', 1)]))])
-                  ]))])])
+
+def O(*pairs):
+    return OrderedDict(zip(*([iter(pairs)]*2)))
+    # return OrderedDict(map(OrderedDict, zip(*([iter(pairs)] * 2))))
+
+DATA = O(KEYDEF, 1, 'a', 2, 'b', O('ib', 5),
+         'c', O(KEYDEF, 3, 'ic', 4, 'jc', O('m', 1)))
 
 
 def chain_resolve(*chain):
@@ -47,8 +47,7 @@ class TestF_dict_flatten:
     def test_1L(self):
         assert [] == list(dict_flatten({}))
         assert [(['a'], 1)] == list(dict_flatten({'a': 1}))
-        assert ([(['a'], 1), (['b'], 2)] ==
-                list(dict_flatten(od([('a', 1), ('b', 2)]))))
+        assert [(['a'], 1), (['b'], 2)] == list(dict_flatten(O('a', 1, 'b', 2)))
 
 #     def test_2L(self):
 #         assert ([(['a', 'c'], 3), (['a', 'd'], 4)] ==
