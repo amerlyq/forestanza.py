@@ -20,7 +20,11 @@ Lore:
     - [転移, "ten'i", transfer|metastasis]
   Objects:
     - [魔眼石, mame ishi, 'Magic Eye Stone']
-  Places: [大迷宮]
+  Places:
+    - [大迷宮]
+    - [洞, hora, cave]
+  Actions:
+    - [頷, unazu, nod]
   L1: [解放者, オルクス, 樹海, 巨樹, 宝物庫, 円月輪, クロス, ビット]
   L2: [魔人族, ツッコミ]
   L3: [乳白色]
@@ -67,6 +71,7 @@ Pointers:
     - [考え, kangae, consider]
     - [疑問, gimon, question]
     - [つもり, tsumori, intend]
+    - [感想, kansō, impression|thoughts]
   State: [[様子, yōsu, state|how]]
   Arentknow: [眼差, 視線, 突然]
   Direction: [唯, 向, 先, 結局, 外, 後, 内, 他, 前]

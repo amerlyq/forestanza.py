@@ -16,6 +16,8 @@ Formats generators
 		http://web.sigil.googlecode.com/git/files/OEBPS/Text/tutorial_stylesheets.html
 
 	xhtml
+		FIXME keep scroll position on resize
+			http://stackoverflow.com/questions/21394157/update-scroll-position-on-resize-of-window#
 		[_] DEV Copy to clipboard on press (individual words) in table column
 		>>[_] http://www.html5rocks.com/en/mobile/responsivedesign/
 		[_] DEV popup meaning/transcription on click
@@ -50,6 +52,9 @@ THINK
 		en-ru -- translate in online dictionary
 		jap-kanji -- search in yarxi/stardict
 
+DEV integrate yarxi.pl into vim
+	Search kanji/word directly in articles
+	Use instead of yarxi with license
 
 DEV plugin for vim: specific highlighting and editing optimization
 	:= To eliminate necessity in votl and logically use some own keymaps.
