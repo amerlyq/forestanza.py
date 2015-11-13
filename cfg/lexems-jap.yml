@@ -22,7 +22,15 @@ Lore:
     - [魔眼石, mame ishi, 'Magic Eye Stone']
   Places:
     - [大迷宮]
+    - [フェアベルゲン, feaberugen, FairBergen]
+
+Common:
+  Objects:
     - [洞, hora, cave]
+    - [通路, tsūro, passage]
+    - [幹, kan, trunk]
+    - [枝, eda, branch]
+    - [巨木, kyodai, huge|giant]
   Actions:
     - [頷, unazu, nod]
   L1: [解放者, オルクス, 樹海, 巨樹, 宝物庫, 円月輪, クロス, ビット]
@@ -72,12 +80,18 @@ Pointers:
     - [疑問, gimon, question]
     - [つもり, tsumori, intend]
     - [感想, kansō, impression|thoughts]
-  State: [[様子, yōsu, state|how]]
   Arentknow: [眼差, 視線, 突然]
-  Direction: [唯, 向, 先, 結局, 外, 後, 内, 他, 前]
-  Moredirs:  [こと, [周囲, Shūi, '(sur)?around'], 天井, 場所]
+  Destinations:
+    - [こと, koto, thing|this]
+    - [背後, haigo, behind]
+    - [周囲, Shūi, '(sur)?around']
+    - [端, tan, end|edge]
+    - 天井
+    - 場所
   Abstract:
     - [仕方, shikata, way|manner|choice]
+    - [様子, yōsu, state|how]
+  Direction: [唯, 向, 先, 結局, 外, 後, 内, 他, 前]
 
 Properties: [ "一[^\u0000-\u3000]", 地面, 大丈夫]
 
@@ -112,9 +126,10 @@ Verbs:
     - [なかった, nakatta, not was]
     X:
     - [じゃ, ja]
-    - [みたい, metai, 'looks like']
   Past: [のだ, 'だろう?', ようだ, だった]
-  Xz: [しまった ]
+  Xz:
+    - [しまった]
+    - [振り返, furikae, 'Looking back|retrospect']
   Make:
     - [する, suru>, do]
     - [した, shita, did]
@@ -129,6 +144,7 @@ Verbs:
     - ['歩[み]', ayumi, walk|step]
     - ['通じる?', 'tsūji(ru)?', leading]
     - ['進[め]', 'susu(me)?', advance|proceed]
+    - [突き出, tsukida, protrude]
 
 
 Auxiliary:
@@ -138,6 +154,11 @@ Auxiliary:
     - [らしい, rashī, likely]
     - [だけ, dake, just|only|simply]
     - ['そうな?', sōna, 'being as']
+  Similarity:
+    - [みたい, metai, 'looks like']
+    - [同じく, onajiku, likewise]
+    - [わけ, wake, 'means that|reason for']
+    - [すぎ, sugi, too much]
   Explanatory:
     - [なのだ>, nanoda>, 'describe state-of-being']
     - ['[のん]だ', 'no?da', 'explain reasons']
@@ -155,8 +176,12 @@ Particles:
     - [なの, <nano>, такой|подобный]
     - [で, <de>]
     - [<へ, <e>, 'towards']
-  Reasons:     [[から, kara>], [まで, made>], [<まる, maru, almost|as if], つつ]
-  Alterate:    [[ほど, hodo>]]
+  Reasons:
+    - [から, kara>, from]
+    - [まで, made>, till]
+    - [<まる, maru, almost|as if]
+    - つつ
+  Alterate:    [[ほど, hodo>, enough]]
   Question:    [[か>, <ka>]]
 
 

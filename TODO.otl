@@ -31,9 +31,6 @@ Formats generators
 	256 term -> RGB
 		http://www.calmar.ws/vim/256-xterm-24bit-rgb-color-chart.html
 
-	+yarxi
-		paci perl-dbi perl-dbd-sqlite
-
 Read fb2
 	zcat "$1"|xsltproc /usr/local/bin/data/FB2_2_xhtml.xsl -|lynx -stdin -display_charset=UTF-8
 	: xsl you can get from fb2 offsite
@@ -43,6 +40,10 @@ THINK
 	Export vim syntax highlighting to phone
 		hardcopy > ss.ps (no japanese) and then ps2pdf ss.ps
 		:OR :TOhtml and then make epub?
+		:> Now I work with .xhtml creation
+
+	[_] Reformat synonyms table to easily copy entries into yml as whole row
+		:= can be also kept hidden and being copied in yml format only on click
 
 	IDEA: different processing, based on absolute paths?
 		E.g. -- treat group 'Characters' as whole words only
@@ -51,6 +52,11 @@ THINK
 	IDEA: in xhtml make words in table as links
 		en-ru -- translate in online dictionary
 		jap-kanji -- search in yarxi/stardict
+
+REGRESSION
+	[_] FIX generation from yml vim syntax highlightings
+	[_] THINK if possible to fix auto indentation for yml
+	[_] Concealing in yml of '|' and replacing with bold ', '
 
 DEV integrate yarxi.pl into vim
 	Search kanji/word directly in articles
