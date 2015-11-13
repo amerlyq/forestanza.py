@@ -3,6 +3,9 @@ SEE
 		https://github.com/soimort/translate-shell
 		http://pythonhosted.org/goslate/
 
+	Resources
+		http://www.findbestopensource.com/tagged/japanese?start=10&fq=Windows
+
 Formats generators
 	fb2
 		https://github.com/IvanAnishchuk/fb2-vim
@@ -18,10 +21,16 @@ Formats generators
 		[_] DEV popup meaning/transcription on click
 			http://www.sitepoint.com/xhtml-strict-popups/
 			http://accessify.com/features/tutorials/the-perfect-popup/archive/
+		THINK
+			[_] toggle visibility of section with article from yarxi by click on word
+			[_] reuse same article (content is one copy) for all same words (construct dictionary with back-refs)
+			[_] jump to glossary at bottom of page / another embedded page / popup window with content
 
 	256 term -> RGB
 		http://www.calmar.ws/vim/256-xterm-24bit-rgb-color-chart.html
 
+	+yarxi
+		paci perl-dbi perl-dbd-sqlite
 
 Read fb2
 	zcat "$1"|xsltproc /usr/local/bin/data/FB2_2_xhtml.xsl -|lynx -stdin -display_charset=UTF-8
