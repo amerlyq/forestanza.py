@@ -16,6 +16,8 @@ Formats generators
 		http://web.sigil.googlecode.com/git/files/OEBPS/Text/tutorial_stylesheets.html
 
 	xhtml
+		[_] THINK? use xml2dict parser for forming page?
+			: https://github.com/martinblech/xmltodict
 		FIXME keep scroll position on resize
 			http://stackoverflow.com/questions/21394157/update-scroll-position-on-resize-of-window#
 		[_] DEV Copy to clipboard on press (individual words) in table column
