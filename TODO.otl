@@ -67,11 +67,16 @@ DEV integrate yarxi.pl into vim
 DEV plugin for vim: specific highlighting and editing optimization
 	:= To eliminate necessity in votl and logically use some own keymaps.
 	:+ Then I could use python inside vim to regenerate and reload syntax files
+	> IDEA (cornerstones):
+		Lexems -- fast extraction into *.yml
+		Grammar -- group and split difficult sentences
+
 	Consider as the best idea, especially for ranobe translation process.
 	[_] Shortcuts to fast populate *.yml with new words
 		:? open split with local .yml, fast open ',.[0-9]' common .yml
 	[_] Regex convert
 		https://github.com/othree/eregex.vim/blob/master/plugin/eregex.vim
+	[_] THINK?: Attach account from yarp for grammar parsing
 
 
 DEV
