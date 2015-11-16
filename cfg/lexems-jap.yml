@@ -35,6 +35,10 @@ Common:
     - [頷, unazu, nod]
   Body:
     - [指先, yubisaki, fingertips]
+    - [背中, senaka, the back]
+    - [顔, kao, face]
+    - [目頭, megashira, eye corner]
+    - [目, me, eyes]
 
   L1: [解放者, オルクス, 樹海, 巨樹, 宝物庫, 円月輪, クロス, ビット]
   L2: [魔人族, ツッコミ]
@@ -48,11 +52,14 @@ Pronouns:
   I:
     - [私, watakusi|watasi|<atasi]
     - [俺, <ore>]
+    - [自分, <jibun>]
   Me:
     - [妾, <mekake>]
   High: [ 奴, 達, 方 ]
-  You:  [ 自身, [自分, <jibun>], 'お前等?', ご主人様 ]
+  You:  [ 自身, 'お前等?', ご主人様 ]
   They:
+    - [皆, mina|kai, everyone]
+    - [全員, "zen'in", everybody]
     - 幼馴染
     - メンバー
     - 'こいつら?'
@@ -68,6 +75,7 @@ Pointers:
     - [今回, konkai, this time]
     - [今, ima, now]
     - [いつも, itsumo, always]
+    - [途端, totan, as soon as]
   Places:
     - 何
     - ['何とも', nantomo, anything]
@@ -79,8 +87,8 @@ Pointers:
     - [言|という, <to iu>, 'referred thing']
     - [声, koe|goe, voice]
     - [叫び, sakebi, cry|shout]
-    - ['呟[く]', 'tsubuya(ku)?', mutter]
-    - ['事実?', kotoba, words]
+    - [呟, tsubuya, mutter]
+    - [事実, kotoba, words]
   Look:
     - [表情, hyōjō, look|facial expression]
   Mind:
@@ -92,6 +100,7 @@ Pointers:
     - [つもり, tsumori, intend]
     - [感想, kansō, impression|thoughts]
     - [わか(る|らず), waka(ru|razu), know|understand-not]
+    - [理解, rikai, understanding]
     - [反応, han'nō, reaction|response]
   Arentknow: [眼差, 視線, 突然]
   Destinations:
@@ -179,7 +188,6 @@ Auxiliary:
   Linkage:
     - [ため, <tame>, "in order to", ради]
     - ['そうな?', sōna, 'being as']
-    - [途端, totan, as soon as]
     - [わけ, wake, 'means that|reason for']
   Similarity:
     - [みたい, metai, 'looks like']

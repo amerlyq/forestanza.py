@@ -39,6 +39,10 @@ Read fb2
 
 
 THINK
+	Make statistics on words
+	: choose set by threshold and highlight -- or hi! by gradations of like
+	: pink or better last gray palette. Others same as normal text/kana.
+	:= This will allow to focus on most often used kanji to remember
 	Export vim syntax highlighting to phone
 		hardcopy > ss.ps (no japanese) and then ps2pdf ss.ps
 		:OR :TOhtml and then make epub?
