@@ -39,11 +39,14 @@ Common:
     - [顔, kao, face]
     - [目頭, megashira, eye corner]
     - [目, me, eyes]
+    - [首, kubi, neck]
 
   L1: [解放者, オルクス, 樹海, 巨樹, 宝物庫, 円月輪, クロス, ビット]
   L2: [魔人族, ツッコミ]
   L3: [乳白色]
   L3: [聖絶, 雷華, 魔衝波, 瞬光]
+  L33:
+    - [悪魔, akuma, demon|devil]
   L4: [魔物, 蜘蛛, ゴーレム, スライム]
   L5: [転送, 魔法, 結界, 障壁, 分解]
 
@@ -55,7 +58,10 @@ Pronouns:
     - [自分, <jibun>]
   Me:
     - [妾, <mekake>]
-  High: [ 奴, 達, 方 ]
+  High:
+    - ['奴等?', 'yatsu(ra)?', guys|fellows]
+    - 達
+    - 方
   You:  [ 自身, 'お前等?', ご主人様 ]
   They:
     - [皆, mina|kai, everyone]
@@ -84,13 +90,14 @@ Pointers:
   # below: (っ)@2<!...
     - ['[こそあど](れ|の|こ|っち|んな)', '<(ko|so|a|do)(re|no|ko|tta|n''?na)>']
   Speech:
-    - [言|という, <to iu>, 'referred thing']
     - [声, koe|goe, voice]
     - [叫び, sakebi, cry|shout]
     - [呟, tsubuya, mutter]
     - [事実, kotoba, words]
+    - [言|という, <to iu>, 'referred thing']
   Look:
     - [表情, hyōjō, look|facial expression]
+    - [見渡, miwata, overlook|survey]
   Mind:
     - [推測, suisoku, guess]
     - [思, <omo, think]
@@ -102,6 +109,7 @@ Pointers:
     - [わか(る|らず), waka(ru|razu), know|understand-not]
     - [理解, rikai, understanding]
     - [反応, han'nō, reaction|response]
+    - ['知(る|って)?', 'shi(ru|tte)?', know]
   Arentknow: [眼差, 視線, 突然]
   Destinations:
     - [こと, koto, thing|this]
