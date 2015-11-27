@@ -1,3 +1,5 @@
+import re
+
 from forestanza import io
 from forestanza.syntax import xhtml
 
@@ -17,6 +19,8 @@ TSYN = """<tr>
   <td>{!s:s}</td>
 </tr>\n"""
 
+ESCAPES = (re.compile('&(?!amp;)'), '&amp;')
+
 
 class Exporter:
     def __init__(self, dom, **kw):
@@ -30,7 +34,8 @@ class Exporter:
         self.metainfo.update({'css': self.style + ''.join(self.synxhtml.colors()),
                               'legend': ''.join(self.synxhtml.legend()),
                               'sections': ''.join(self.sections)})
-        return self.template.format(**self.metainfo)
+        r, s = ESCAPES
+        return r.sub(s, self.template.format(**self.metainfo))
 
     def p_section(self, ind, sec):
         syns = [TSYN.format(self.synxhtml.pygment_origin(org.strip()), pho, trl)

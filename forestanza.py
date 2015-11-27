@@ -38,7 +38,7 @@ class Arifureta:
         self.name = 'arifureta-{:d}'.format(chapter)
 
 if __name__ == '__main__':
-    fl = Arifureta(131)
+    fl = Arifureta(132)
     if len(sys.argv) > 1 and sys.argv[1] == '-r':
         io.clean_cache(fl.name)
 
