@@ -18,8 +18,13 @@ Formats generators
 	xhtml
 		[_] THINK? use xml2dict parser for forming page?
 			: https://github.com/martinblech/xmltodict
+
+		TODO: add splitting by regex, generate content by js?
+			http://www.w3schools.com/jsref/jsref_obj_regexp.asp
 		FIXME keep scroll position on resize
 			http://stackoverflow.com/questions/21394157/update-scroll-position-on-resize-of-window#
+			http://jsfiddle.net/JamesKyle/RmNap/
+			> [_] https://developer.mozilla.org/en-US/docs/Writing_JavaScript_for_XHTML
 		[_] DEV Copy to clipboard on press (individual words) in table column
 		>>[_] http://www.html5rocks.com/en/mobile/responsivedesign/
 		[_] DEV popup meaning/transcription on click
@@ -64,9 +69,13 @@ REGRESSION
 	[_] THINK if possible to fix auto indentation for yml
 	[_] Concealing in yml of '|' and replacing with bold ', '
 
+
 DEV integrate yarxi.pl into vim
-	Search kanji/word directly in articles
-	Use instead of yarxi with license
+	[_] Search kanji/word directly in articles
+	[_] Use instead of yarxi with license
+	[_] Populate lexics with kanji-drill from yarxi
+		:= NEED synchronized yarxi_u.db and samples.kdg
+	[_] Copy articles inside xhtml (one article -- many references)
 
 DEV plugin for vim: specific highlighting and editing optimization
 	:= To eliminate necessity in votl and logically use some own keymaps.
