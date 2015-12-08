@@ -17,7 +17,7 @@ class SynGenVim:
         for entry in self._dom.data():
             rgx = '|'.join(entry[idx])
             if rgx:
-                yield SYNFMT.format(entry[1], rgx)
+                yield SYNFMT.format(entry[1], rgx.replace("'", "\\'"))
 
     def colors(self):
         for grp, clr in sorted(self._dom.colors()):

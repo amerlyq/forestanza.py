@@ -27,7 +27,7 @@ class SynGenXHTML:
     def perl_convert(self, rgx):
         rgx = rgx.replace('<', r'\b').replace('>', r'\b').replace('(', r'(?:')
         # NOTE If overlapping is allowed -- by '.' at beg or end -- skip side checking
-        print(rgx)
+        # print(rgx)
         return rgx
 
     def make_from(self, idx):
