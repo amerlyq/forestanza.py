@@ -1,3 +1,9 @@
+TODO
+	Split development in different orphan branches
+		[_] branches -- syntax/gen, vim, android
+		[_] master -- all branches as submodules
+		[_] lexical base -- submodule in each other branch
+
 SEE
 	Translate
 		https://github.com/soimort/translate-shell
@@ -34,6 +40,9 @@ Formats generators
 			[_] toggle visibility of section with article from yarxi by click on word
 			[_] reuse same article (content is one copy) for all same words (construct dictionary with back-refs)
 			[_] jump to glossary at bottom of page / another embedded page / popup window with content
+
+	Android
+		fork FBReader and adapt?
 
 	256 term -> RGB
 		http://www.calmar.ws/vim/256-xterm-24bit-rgb-color-chart.html
