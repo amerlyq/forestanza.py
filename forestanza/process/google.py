@@ -2,11 +2,14 @@ import re
 import json
 from urllib import request
 from urllib.parse import urlencode
+from subprocess import check_output
 
 from kitchen.text.display import textual_width_fill
 
+from forestanza.io import expand_pj
 
-AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0"
+# AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0"
+AGENT = 'Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0'
 REQ_GLETR = '/translate_a/single?client=t&ie=UTF-8&oe=UTF-8&dt=rm&dt=t&dt=at&'
 # '&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&' +
 EXL_PARTS = ['(aux:relc)', '(null:pronoun)']
@@ -19,8 +22,10 @@ class Translator:
         self.url = "http://" + self.host
 
     def _make_req(self, text, sl='ja', tl='en', hl='en'):
+        cmd = (expand_pj(':/scripts/tk_hack.pl'), text)
+        tk = check_output(cmd).decode('utf-8').rstrip()
         return REQ_GLETR + urlencode([('q', text), ('sl', sl), ('tl', tl),
-                                      ('hl', hl)]) + '&tk'
+                                      ('hl', hl), ('tk', tk)])
 
     def _response(self, line):
         link = self.url + self._make_req(line)
