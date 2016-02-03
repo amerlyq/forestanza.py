@@ -15,17 +15,21 @@ def progress_bar(i, n):
     print("{}/{} = {}%".format(i+1, n, round(100*i/n)))
 
 
-def translated(fl):
+def translated(gt, fl):
     srctxt = io.expand_pj('@/' + fl.name + '.src.txt')
     prorsp = io.expand_pj('@/' + fl.name + '.pro.rsp')
 
     if os.path.exists(prorsp):
         with open(prorsp, 'r') as f:
-            for line in f.readlines():
+            lst = f.readlines()
+            fl.N = len(lst)
+            for line in lst:
                 yield line
     else:
         with open(srctxt, 'r') as f:
-            for line in f.readlines():
+            lst = f.readlines()
+            fl.N = len(lst)
+            for line in lst:
                 line = gt.translate(line)
                 with open(prorsp, 'a') as rsp:
                     rsp.write(line + '\n')
@@ -56,13 +60,12 @@ if __name__ == '__main__':
     exs = [t.Exporter(dom, author='Xz', title=fl.name) for t in fts]
 
     # Write main body
-    gt = google.Translator()
-    lst = translated(fl)
+    lst = translated(google.Translator(), fl)
     for i, line in enumerate(lst):
         sec = google.ResponseParser(line)
         for e in exs:
             e.p_section(i+1, sec)
-        # progress_bar(i, 100)  # len(lst))
+        progress_bar(i, fl.N)
 
     for t, e in zip(fts, exs):
         io.export_cache(fl.name + t.EXT, lambda: e.dump())
