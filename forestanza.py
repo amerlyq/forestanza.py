@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-import sys
+from argparse import ArgumentParser
 
 from forestanza import io
 from forestanza.ftype import fb2, fza, xhtml
@@ -41,11 +41,8 @@ class Arifureta:
         self.url = 'http://ncode.syosetu.com/n8611bv/{:d}'.format(chapter)
         self.name = 'arifureta-{:d}'.format(chapter)
 
-if __name__ == '__main__':
-    fl = Arifureta(132)
-    if len(sys.argv) > 1 and sys.argv[1] == '-r':
-        io.clean_cache(fl.name)
 
+def main(fl):
     src = fl.name + '.src.html'
     io.export_cache(src, lambda: web.load(fl.url), keep=True)
     io.export_cache(fl.name + '.src.txt',
@@ -69,3 +66,19 @@ if __name__ == '__main__':
 
     for t, e in zip(fts, exs):
         io.export_cache(fl.name + t.EXT, lambda: e.dump())
+
+
+if __name__ == '__main__':
+    parser = ArgumentParser(description='dld + tr')
+    parser.add_argument('chapters', metavar='C', type=int, nargs='+', default=[],
+                        help='an integer list for the target chapters')
+    parser.add_argument('-r', '--remove', action='store_true', default=None,
+                        help='')
+
+    args = parser.parse_args()
+
+    for i in args.chapters:
+        fl = Arifureta(i)
+        if args.remove:
+            io.clean_cache(fl.name)
+        main(fl)
