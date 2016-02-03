@@ -1,7 +1,6 @@
 import re
 import json
-from urllib import request
-from urllib.parse import urlencode
+import urllib
 from subprocess import check_output
 
 from kitchen.text.display import textual_width_fill
@@ -24,13 +23,18 @@ class Translator:
     def _make_req(self, text, sl='ja', tl='en', hl='en'):
         cmd = (expand_pj(':/scripts/tk_hack.pl'), text)
         tk = check_output(cmd).decode('utf-8').rstrip()
-        return REQ_GLETR + urlencode([('q', text), ('sl', sl), ('tl', tl),
-                                      ('hl', hl), ('tk', tk)])
+        return REQ_GLETR + urllib.parse.urlencode(
+            [('q', text), ('sl', sl), ('tl', tl), ('hl', hl), ('tk', tk)])
 
     def _response(self, line):
         link = self.url + self._make_req(line)
-        req = request.Request(url=link, headers={"User-Agent": AGENT})
-        data = request.urlopen(req).read().decode('utf-8')
+        req = urllib.request.Request(url=link, headers={"User-Agent": AGENT})
+        try:
+            data = urllib.request.urlopen(req).read().decode('utf-8')
+        except urllib.error.HTTPError as e:
+            print("\nOrigin: {}\n Err: {}\nReq: {}\n".format(line, e, link))
+            import sys
+            sys.exit(1)
         ## Fill empty array items with 'null' to obtain valid JSON.
         return re.sub(r'(?<=,|\[)(?=,|\])', r'null', data)
 

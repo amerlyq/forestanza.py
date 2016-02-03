@@ -54,9 +54,10 @@ Read fb2
 
 
 THINK
-	[_] TODO: continue line-by-line translation from last response onward
+	2016-02-03 [X] TODO: continue line-by-line translation from last response onward
 	[_] FIXME: don't split line in source/web.py, if before/after regex <=6 symbols
 		: Also unite all splitting in one place -- move additional splitting at ','
+	[_] FIXME: split line -- when url for GET must be less then 2000 characters
 	Make statistics on words
 	: choose set by threshold and highlight -- or hi! by gradations of like
 	: pink or better last gray palette. Others same as normal text/kana.

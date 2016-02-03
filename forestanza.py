@@ -19,21 +19,31 @@ def translated(gt, fl):
     srctxt = io.expand_pj('@/' + fl.name + '.src.txt')
     prorsp = io.expand_pj('@/' + fl.name + '.pro.rsp')
 
+    if os.path.exists(srctxt):
+        with open(srctxt, 'r') as f:
+            fl.N = sum(1 for L in f)
+
+    # WARNING: manually deleting lines in 'prorsp' allowed only from the end
     if os.path.exists(prorsp):
         with open(prorsp, 'r') as f:
             lst = f.readlines()
-            fl.N = len(lst)
+            proN = len(lst)
+            if not hasattr(fl, 'N') or not fl.N:
+                fl.N = proN
             for line in lst:
                 yield line
-    else:
-        with open(srctxt, 'r') as f:
-            lst = f.readlines()
-            fl.N = len(lst)
-            for line in lst:
-                line = gt.translate(line)
-                with open(prorsp, 'a') as rsp:
-                    rsp.write(line + '\n')
-                yield line
+
+    # ATTENTION: Will die if srctxt is non-existent/corrupted
+    with open(srctxt, 'r') as f:
+        lst = f.readlines()
+        # Process only not cached part
+        if 'proN' in locals():
+            lst = lst[proN:]
+        for line in lst:
+            line = gt.translate(line)
+            with open(prorsp, 'a') as rsp:
+                rsp.write(line + '\n')
+            yield line
 
 
 class Arifureta:
