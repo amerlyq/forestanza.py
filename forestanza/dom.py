@@ -8,7 +8,7 @@ class ForestanzaDOM:
     def __init__(self, clrs, lexs):
         self._clrs = clrs
         self._lexs = lexs
-        print(lexs)
+        # print(lexs)
         self.clr = {}
 
     # BUG: Saved from generator -- no saved?

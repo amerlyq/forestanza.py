@@ -24,7 +24,7 @@ class Translator:
         cmd = (expand_pj(':/scripts/tk_hack.pl'), text)
         tk = check_output(cmd).decode('utf-8').rstrip()
         return REQ_GLETR + urllib.parse.urlencode(
-            [('q', text), ('sl', sl), ('tl', tl), ('hl', hl), ('tk', tk)])
+            [('sl', sl), ('tl', tl), ('hl', hl), ('tk', tk), ('q', text)])
 
     def _response(self, line):
         link = self.url + self._make_req(line)

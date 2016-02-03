@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import time
 from argparse import ArgumentParser
 
 from forestanza import io
@@ -85,10 +86,16 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--remove', action='store_true', default=None,
                         help='')
 
+    tbeg_whole = time.time()
     args = parser.parse_args()
 
     for i in args.chapters:
+        tbeg_chap = time.time()
         fl = Arifureta(i)
         if args.remove:
             io.clean_cache(fl.name)
+        print("\n--- {} ---".format(fl.name))
         main(fl)
+        print("= {} s  // {}".format(time.time() - tbeg_chap, fl.name))
+
+    print("\n=== {} s // Total".format(time.time() - tbeg_whole))

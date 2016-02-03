@@ -16,5 +16,5 @@ def refine(path):
     text = re.sub(
         u'(?<=\u3002|\uff01|\uff1f)(?![\x20\u3000]*(?:\u300d|\u300f|\u3002|\uff01|\uff1f|$))',
         u'\n', body.text_content(), flags=re.MULTILINE and re.UNICODE)
-    return os.linesep.join([s for s in text.splitlines()
-                            if not re.match(u'^[\t\x20\u3000]*$', s)])
+    lines = [s.strip(u'\t\x20\u3000') for s in text.splitlines()]
+    return os.linesep.join([s for s in lines if s])
