@@ -2,9 +2,9 @@
 
 import os
 import time
-from argparse import ArgumentParser
 
 from forestanza import io
+from forestanza.opts import make_options
 from forestanza.ftype import fb2, fza, xhtml
 from forestanza.dom import ForestanzaDOM
 from forestanza.syntax.vim import SynGenVim
@@ -47,22 +47,18 @@ def translated(gt, fl):
             yield line
 
 
-class Arifureta:
-    def __init__(self, chapter):
-        self.url = 'http://ncode.syosetu.com/n8611bv/{:d}'.format(chapter)
-        self.name = 'arifureta-{:d}'.format(chapter)
+class Chapter:
+    def __init__(self, args, chapter):
+        self.url = args.url.format(chapter)
+        self.name = args.name.format(chapter)
+        self.basepath = io.expand_pj('@/' + self.name)
 
 
-def main(fl):
+def main(dom, fl):
     src = fl.name + '.src.html'
     io.export_cache(src, lambda: web.load(fl.url), keep=True)
     io.export_cache(fl.name + '.src.txt',
                     lambda: web.refine(io.expand_pj('@/' + src)), keep=True)
-
-    dom = ForestanzaDOM(io.import_yaml('colorscheme'),
-                        io.import_yaml('lexems-' + 'jap'))
-    for k, v in SynGenVim(dom).ddump():
-        io.export_cache(k + '.vim', v)
 
     fts = [fb2, fza, xhtml]
     exs = [t.Exporter(dom, author='Xz', title=fl.name) for t in fts]
@@ -80,22 +76,26 @@ def main(fl):
 
 
 if __name__ == '__main__':
-    parser = ArgumentParser(description='dld + tr')
-    parser.add_argument('chapters', metavar='C', type=int, nargs='+', default=[],
-                        help='an integer list for the target chapters')
-    parser.add_argument('-r', '--remove', action='store_true', default=None,
-                        help='')
-
     tbeg_whole = time.time()
-    args = parser.parse_args()
+    args = make_options().parse_args()
+    io.DSTDIR = args.outdir
+
+    print(">>> Forestanza <<<")
+    dom = ForestanzaDOM(io.import_yaml('colorscheme'),
+                        io.import_yaml('lexems-' + 'jap'))
+    if args.vimsyntax:
+        for k, v in SynGenVim(dom).ddump():
+            print('> {}.vim'.format(k))
+            io.export_cache(k + '.vim', v)
 
     for i in args.chapters:
         tbeg_chap = time.time()
-        fl = Arifureta(i)
+        fl = Chapter(args, i)
         if args.remove:
             io.clean_cache(fl.name)
         print("\n--- {} ---".format(fl.name))
-        main(fl)
-        print("= {} s  // {}".format(time.time() - tbeg_chap, fl.name))
+        main(dom, fl)
+        print("= {} s  > {}.*".format(time.time() - tbeg_chap,
+                                      fl.basepath.replace(os.environ['HOME'], '~')))
 
     print("\n=== {} s // Total".format(time.time() - tbeg_whole))
