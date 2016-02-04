@@ -3,6 +3,9 @@ TODO
 		[_] branches -- syntax/gen, vim, android
 		[_] master -- all branches as submodules
 		[_] lexical base -- submodule in each other branch
+	[_] FIX: when specifed direct --url to chapter w/o number -- need process chapter anyway
+		:= Currently it's not -- because loop won't run with chapters=[]
+		: http://stackoverflow.com/questions/15301147/python-argparse-default-value-or-specified-value
 
 SEE
 	Translate
@@ -28,10 +31,7 @@ Formats generators
 
 		TODO: add splitting by regex, generate content by js?
 			http://www.w3schools.com/jsref/jsref_obj_regexp.asp
-		FIXME keep scroll position on resize
-			http://stackoverflow.com/questions/21394157/update-scroll-position-on-resize-of-window#
-			http://jsfiddle.net/JamesKyle/RmNap/
-			> [_] https://developer.mozilla.org/en-US/docs/Writing_JavaScript_for_XHTML
+
 		[_] DEV Copy to clipboard on press (individual words) in table column
 		>>[_] http://www.html5rocks.com/en/mobile/responsivedesign/
 		[_] DEV popup meaning/transcription on click
@@ -51,6 +51,42 @@ Formats generators
 Read fb2
 	zcat "$1"|xsltproc /usr/local/bin/data/FB2_2_xhtml.xsl -|lynx -stdin -display_charset=UTF-8
 	: xsl you can get from fb2 offsite
+
+
+NOTE:DEV:(js)
+	Debug
+		: window.alert(loadPos());
+	Events
+		window.onload
+			: On each refresh of page
+		window.onbeforeunload
+			: On refresh page by pressing F5, close tab or browser, enter a new url and <Enter>
+	Body modifying
+		: var string = '<div xmlns="http://www.w3.org/999/xhtml"><h1>Hello World!</h1></div>';
+		: var parser = new DOMParser();
+		: var documentFragment = parser.parseFromString(string, "text/xml");
+		: body.appendChild(documentFragment); // assuming 'body' is the body element
+		ALT
+		: document.getElementById("s0001").innerHTML = "New text!";
+	Misc snippet code
+		: var x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+		: var w = (document.width  || document.body.offsetWidth);
+		: var pos = document.documentElement.scrollTop || document.body.scrollTop;
+		: localStorage.removeItem('scrollRelPos');
+	2016-02-04 [X] FIXME keep scroll position on resize and browser restart
+		: SEE: google: js keep scroll position
+		: http://mantascode.com/javascript-how-to-readwrite-html5-local-storage/
+		: http://stackoverflow.com/questions/21394157/update-scroll-position-on-resize-of-window#
+		: http://stackoverflow.com/questions/21394157/update-scroll-position-on-resize-of-window#
+		: http://jsfiddle.net/JamesKyle/RmNap/
+		> https://developer.mozilla.org/en-US/docs/Writing_JavaScript_for_XHTML
+	[_] THINK: onresize and onbeforeunload -- enough to storePos()? But if crash...
+	[_] BUG: call for storePos(); inside onResize() don't work as expected
+		:= It somehow saves new position after resize instead of old!
+		:? CHECK: Maybe window 'h' is updated before 'y'?
+	[_] BUG:WARNING: key scrollRelPos in localStorage is shared between all arifureta-*.xhtml
+		: Therefore when loading new page it will jump to new old inherited position!
+	[_] CHECK: if onresize fired directly once after onload on first load?
 
 
 THINK

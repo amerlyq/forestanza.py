@@ -126,7 +126,7 @@ Pointers:
   Direction: [唯, 向, 先, 結局, 外, 後, 内, 他, 前]
 
 Properties:
-  L1: ["一[^\u0020-\u3000]", 地面, [大丈夫, daijōbu, being okay]]
+  L1: ["一[^\x20-\xff]", 地面, [大丈夫, daijōbu, being okay]]
   L2:
     - [結構, kekkō, pretty|quiet]
     - [普通, futsū, usually|normally]

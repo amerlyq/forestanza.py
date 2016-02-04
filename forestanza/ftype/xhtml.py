@@ -27,11 +27,13 @@ class Exporter:
         self.metainfo = kw
         self.template = io.import_template(__file__, 'xhtml.xml')
         self.style = io.import_template(__file__, 'xhtml.css')
+        self.script = io.import_template(__file__, 'xhtml.js')
         self.sections = []
         self.synxhtml = xhtml.SynGenXHTML(dom)
 
     def dump(self):
         self.metainfo.update({'css': self.style + ''.join(self.synxhtml.colors()),
+                              'js': self.script,
                               'legend': ''.join(self.synxhtml.legend()),
                               'sections': ''.join(self.sections)})
         r, s = ESCAPES
