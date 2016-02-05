@@ -56,6 +56,7 @@ Read fb2
 NOTE:DEV:(js)
 	Debug
 		: window.alert(loadPos());
+		: window.alert('S: ' + y + '/' + h + ' : ' + pos);
 	Events
 		window.onload
 			: On each refresh of page
@@ -73,6 +74,13 @@ NOTE:DEV:(js)
 		: var w = (document.width  || document.body.offsetWidth);
 		: var pos = document.documentElement.scrollTop || document.body.scrollTop;
 		: localStorage.removeItem('scrollRelPos');
+	Seems like onResize is called only after rotating screen!
+		: function onResizePost() { loadPos(); }
+		: if (this.resizeTimeout) { clearTimeout(this.resizeTimeout); }
+		: storePos();
+		: this.resizeTimeout = setTimeout(onResizePost, 500);
+	LocalStorage problems
+		: http://superuser.com/questions/629525/how-to-control-websites-use-of-localstorage-in-firefox
 	2016-02-04 [X] FIXME keep scroll position on resize and browser restart
 		: SEE: google: js keep scroll position
 		: http://mantascode.com/javascript-how-to-readwrite-html5-local-storage/
@@ -80,13 +88,17 @@ NOTE:DEV:(js)
 		: http://stackoverflow.com/questions/21394157/update-scroll-position-on-resize-of-window#
 		: http://jsfiddle.net/JamesKyle/RmNap/
 		> https://developer.mozilla.org/en-US/docs/Writing_JavaScript_for_XHTML
+	[_] FIXME: If text wraps, then on resize relative position isn't correct
+		:= Use nearest span ids:
+		:	http://stackoverflow.com/questions/6444656/html-javascript-fix-scroll-position-after-screen-rotation
 	[_] THINK: onresize and onbeforeunload -- enough to storePos()? But if crash...
 	[_] BUG: call for storePos(); inside onResize() don't work as expected
 		:= It somehow saves new position after resize instead of old!
 		:? CHECK: Maybe window 'h' is updated before 'y'?
 	[_] BUG:WARNING: key scrollRelPos in localStorage is shared between all arifureta-*.xhtml
 		: Therefore when loading new page it will jump to new old inherited position!
-	[_] CHECK: if onresize fired directly once after onload on first load?
+	2016-02-05 [X] CHECK: if onresize fired directly once after onload on first load?
+		:= Seems like onresize is called after each onload
 
 
 THINK
