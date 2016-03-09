@@ -81,6 +81,7 @@ NOTE:DEV:(js)
 		: this.resizeTimeout = setTimeout(onResizePost, 500);
 	LocalStorage problems
 		: http://superuser.com/questions/629525/how-to-control-websites-use-of-localstorage-in-firefox
+		:> Don't use window.onbeforeunload = storePos(), it seems to store 0
 	2016-02-04 [X] FIXME keep scroll position on resize and browser restart
 		: SEE: google: js keep scroll position
 		: http://mantascode.com/javascript-how-to-readwrite-html5-local-storage/

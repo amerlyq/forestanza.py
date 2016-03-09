@@ -3,11 +3,11 @@ function storePos() {
     var y = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop  || 0);
     var h = (document.height || document.body.offsetHeight);
     var pos = y / h;
-    sessionStorage.setItem('scrollRelPos', pos);
+    localStorage.setItem('scrollRelPos', pos);
 }
 
 function loadPos() {
-    var pos = sessionStorage.getItem('scrollRelPos');
+    var pos = localStorage.getItem('scrollRelPos');
     if (typeof pos == 'undefined') { return; }
     var h = (document.height || document.body.offsetHeight);
     var y = Math.round(pos * h);
@@ -20,7 +20,6 @@ function onScroll() {
 }
 
 (function () {  // Main
-    window.onbeforeunload = storePos;
     window.onresize = loadPos;
     window.onscroll = onScroll;
 })();
