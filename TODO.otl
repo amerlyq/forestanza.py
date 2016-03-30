@@ -127,6 +127,10 @@ THINK
 		en-ru -- translate in online dictionary
 		jap-kanji -- search in yarxi/stardict
 
+	IDEA: choose word group directly from radio list after click on word
+		:= It allows to fill db in much more faster/comfortable way
+
+
 REGRESSION
 	[_] FIX generation from yml vim syntax highlightings
 	[_] THINK if possible to fix auto indentation for yml
