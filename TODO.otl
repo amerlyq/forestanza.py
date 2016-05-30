@@ -7,6 +7,20 @@ TODO
 		:= Currently it's not -- because loop won't run with chapters=[]
 		: http://stackoverflow.com/questions/15301147/python-argparse-default-value-or-specified-value
 
+TRY:(syntax)
+	Make with python -- converge statistics from separate words, then crop by
+	threshold >3, filter frequent particles '-to', filter list of already
+	highlighted words (contained several yaml's -- specific and general),
+	show.  Then using this statistics on new files you can speedily determine
+	necessary new words to add. Then you can generate .vimrc with necessary
+	syntax.
+
+	Second merit -- using statistics, you can show translation only under
+	first 3 word entries, ignoring all others -- for text space economy when
+	prominent knowing language.
+
+		cat arifureta-130.otl | sed -rn '/\|\s*(\w+)\s*\|.*/s//\1/p' | sort -n | uniq -c | sort -n
+
 SEE
 	Translate
 		https://github.com/soimort/translate-shell
