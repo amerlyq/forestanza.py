@@ -1,11 +1,16 @@
 TODO
+	[_] Split todo.otl in multiple docs/*.nou. Move 'js' parts into aeternum
+	[_] Split independent xhtml viewer and {content fetcher + static xhtml generator}
 	Split development in different orphan branches
-		[_] branches -- syntax/gen, vim, android
+		[_] branches -- syntax/gen, vim-forestanza, android
 		[_] master -- all branches as submodules
 		[_] lexical base -- submodule in each other branch
 	[_] FIX: when specifed direct --url to chapter w/o number -- need process chapter anyway
 		:= Currently it's not -- because loop won't run with chapters=[]
 		: http://stackoverflow.com/questions/15301147/python-argparse-default-value-or-specified-value
+	[_] TRY Port to Windows (use mingw+pip?)
+		ALT: first-order -- xhtml/js reader -- to fast-edit lexics on android
+
 
 TRY:(syntax)
 	Make with python -- converge statistics from separate words, then crop by
@@ -19,7 +24,7 @@ TRY:(syntax)
 	first 3 word entries, ignoring all others -- for text space economy when
 	prominent knowing language.
 
-		cat arifureta-130.otl | sed -rn '/\|\s*(\w+)\s*\|.*/s//\1/p' | sort -n | uniq -c | sort -n
+		$ cat arifureta-130.otl | sed -rn '/\|\s*(\w+)\s*\|.*/s//\1/p' | sort -n | uniq -c | sort -n
 
 SEE
 	Translate
@@ -44,9 +49,36 @@ Formats generators
 			: https://github.com/martinblech/xmltodict
 
 		TODO: add splitting by regex, generate content by js?
-			http://www.w3schools.com/jsref/jsref_obj_regexp.asp
+			Regex
+				http://www.w3schools.com/jsref/jsref_obj_regexp.asp
+				(i) https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+			File reading
+				http://www.html5rocks.com/en/tutorials/file/dndfiles/
+			Format
+				BUT: how to load yaml? Or js can natively (but js isn't Ruby)?
+					: http://stackoverflow.com/questions/4335804/javascript-yaml-parser
+					https://github.com/tj/js-yaml
+					https://github.com/jeremyfa/yaml.js
+					https://code.google.com/archive/p/javascript-yaml-parser
+				ALT:(own format) simplified yaml -- use code snips from yaml parser
+					keys: ^\s*([^,:]):\s*$
+						MAYBE use '.' for flattened nesting
+							object-like k1.k2.k3:
+							path-like k1/k2/k3:
+							THEN all next stuff until another key goes into last key
+								+ no need to awfully control indent in 920 editor on android
+								+ useful for long lists to find out hierarchy coords
+								+ easy split/join throughout multiple files
+								- miswritten path parts -> disjointed hierarchy
+					single-line statement: \s*
+						origin, sound, tr1, tr2, ...
+					indent parsed only for keys
+					no mixed keys/statements on one level
+						all statements go to last key independently from indent
 
+		[_] Table folding / hiding
 		[_] DEV Copy to clipboard on press (individual words) in table column
+			http://stackoverflow.com/questions/3325867/folding-unfolding-table-with-html-javascript
 		>>[_] http://www.html5rocks.com/en/mobile/responsivedesign/
 		[_] DEV popup meaning/transcription on click
 			http://www.sitepoint.com/xhtml-strict-popups/
@@ -68,6 +100,8 @@ Read fb2
 
 
 NOTE:DEV:(js)
+	WTF node.js ALSO short review for js frameworks
+		> http://stackoverflow.com/questions/1884724/what-is-node-js
 	Debug
 		: window.alert(loadPos());
 		: window.alert('S: ' + y + '/' + h + ' : ' + pos);
@@ -149,6 +183,7 @@ REGRESSION
 	[_] FIX generation from yml vim syntax highlightings
 	[_] THINK if possible to fix auto indentation for yml
 	[_] Concealing in yml of '|' and replacing with bold ', '
+	[_] FIX: remove jap '[' ']' from TR table
 
 
 DEV integrate yarxi.pl into vim
@@ -169,7 +204,9 @@ DEV plugin for vim: specific highlighting and editing optimization
 	[_] Shortcuts to fast populate *.yml with new words
 		:? open split with local .yml, fast open ',.[0-9]' common .yml
 	[_] Regex convert
+		SEE:(vim) :h perl-patterns
 		https://github.com/othree/eregex.vim/blob/master/plugin/eregex.vim
+		THINK: prefer perl (or what compatible with js) instead of vimre?
 	[_] THINK?: Attach account from yarp for grammar parsing
 
 
