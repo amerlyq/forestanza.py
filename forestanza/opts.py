@@ -3,10 +3,17 @@ from argparse import ArgumentParser
 import forestanza
 from forestanza import io
 
+desc = '''Usage:
+
+./forestanza.py -o ~/nny -u 'http://ncode.syosetu.com/n8523ct/{:d}' -n 'nny-{:d}' {14..87}
+
+P.S. Check max pages on site beforehand
+'''
+
 
 def make_options():
     parser = ArgumentParser(prog=forestanza.__appname__,
-                            description='dld + tr')
+                            description=desc)
     opt = parser.add_argument
 
     opt('chapters', metavar='C', type=int, nargs='*', default=[],

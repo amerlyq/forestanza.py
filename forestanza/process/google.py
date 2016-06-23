@@ -9,7 +9,7 @@ from forestanza.io import expand_pj
 
 # AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0"
 AGENT = 'Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0'
-REQ_GLETR = '/translate_a/single?client=t&ie=UTF-8&oe=UTF-8&dt=rm&dt=t&dt=at&'
+REQ_GLETR = '/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&dt=rm&dt=t&dt=at&'
 # '&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&' +
 EXL_PARTS = ['(aux:relc)', '(null:pronoun)']
 REM_WORDS = ['.', '"', '!', '?', u'\u300c', u'\u300d', '(', ')', '.'*6]
@@ -17,7 +17,7 @@ REM_WORDS = ['.', '"', '!', '?', u'\u300c', u'\u300d', '(', ')', '.'*6]
 
 class Translator:
     def __init__(self):
-        self.host = "translate.google.com"
+        self.host = "translate.googleapis.com"
         self.url = "http://" + self.host
 
     def _make_req(self, text, sl='ja', tl='en', hl='en'):
