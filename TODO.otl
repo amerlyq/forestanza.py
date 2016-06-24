@@ -1,14 +1,24 @@
 > Goals
+	Motivation
+		- I spend time writing utils and providing them to TLs
+		+ But it spares time by reading their TLs instead of TLing myself.
+		- Efforts will be repaid only when many TLs involved
+			so all that TLs in sum produce more in eng, than I can read in jap
+		+ Bonus: I get enhanced tools to fasten my reading also.
+
 	Faster reading speed for WN
 		Assistance in learning Japanese
 		Enhance sentence comprehension speed
 
 	Tools for TL
+		> reduce mental fatigue: eliminate the most frustrating/irritating/monotonous tasks
 		sentence-wise splitting / formatting
 		current speaker fast tagging
 		web-SaS tight integration
 			send current sentence into SaS to get all possible info on it
 			merge, refine and represent gotten info
+			ALT: coupling with T-Agg -> copy sentence -> hooked clipboard
+			TODO: try T-Agg under Wine
 		backup through git-scripts
 
 TODO
@@ -27,6 +37,7 @@ TODO
 		> http://www.pythonschool.net/pyqt/distributing-your-application-on-windows/
 		ALT: first-order -- xhtml/js reader -- to fast-edit lexics on android
 		ALT: using built-in linux support on Windows10+
+		ALT: WebView with Python
 
 
 TRY:(syntax)
@@ -95,6 +106,10 @@ Formats generators
 					no mixed keys/statements on one level
 						all statements go to last key independently from indent
 					[_] Document dict/style formats in README
+			Alt: pack xhtml/js into Apache Cordova
+				https://www.pubnub.com/blog/2014-10-22-how-to-convert-your-javascript-app-into-an-android-app-with-phonegap/
+				http://phonegap.com/
+				http://stackoverflow.com/questions/13253547/can-i-write-an-app-in-javascript-html-css-and-sell-it-on-the-app-store-googles
 
 		[_] Table folding / hiding
 		[_] DEV Copy to clipboard on press (individual words) in table column
