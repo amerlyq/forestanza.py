@@ -22,6 +22,11 @@ TSYN = """<tr>
 ESCAPES = (re.compile('&(?!amp;)'), '&amp;')
 
 
+# html-sanitizer
+def _S(s):
+    return s.replace('<', '&lt;').replace('>', '&gt;')
+
+
 class Exporter:
     def __init__(self, dom, **kw):
         self.metainfo = kw
@@ -40,9 +45,13 @@ class Exporter:
         return r.sub(s, self.template.format(**self.metainfo))
 
     def p_section(self, ind, sec):
-        syns = [TSYN.format(self.synxhtml.pygment_origin(org.strip()), pho, trl)
-                for org, pho, trl in sec.rows]
+        syns = [TSYN.format(
+            self.synxhtml.pygment_origin(_S(org.strip())),
+            _S(pho),
+            _S(trl))
+            for org, pho, trl in sec.rows]
         self.sections.append(TSEC.format(
-            origin=self.synxhtml.pygment_origin(sec.origin),
-            phonetics=sec.phonetics,  # self.synxhtml.pygment_phonet(sec.phonetics),
-            index=ind, syntable=''.join(syns), translation=sec.translation))
+            origin=self.synxhtml.pygment_origin(_S(sec.origin)),
+            phonetics=_S(sec.phonetics),  # self.synxhtml.pygment_phonet(sec.phonetics),
+            index=ind, syntable=''.join(syns),
+            translation=_S(sec.translation)))
