@@ -22,5 +22,9 @@ Many narrow-purpose tools + main control panel
     * Develop niche scripts (if needed).
     * Glue together existing tools (if possible).
 
+At the end, I can't hope for something more then interactive helper,
+similar to binary code disassemblers. After all, natural language
+processing is much more difficult then deterministic machine language.
+
 -----------------
 Japanese -- it's just like Lisp in reverse polish notation! (c) amerlyq
