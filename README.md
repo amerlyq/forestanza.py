@@ -1,3 +1,6 @@
+The development of the original *forestanza* python prototype have been
+ceased in the favor of the [cross-platform Qt-based solution in C++](https://github.com/amerlyq/forestanza).
+
 # forestanza
 Translation assistance toolset to adapt foreign texts for reading (negligible language proficiency).
 
