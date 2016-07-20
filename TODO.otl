@@ -3,6 +3,8 @@
 TODO
 	[_] FIXME: angle brackets break format for xhtml and fb2
 	[_] FIXME: save indendent scroll position in local storage
+	[_] FIXME: dld/tl bugs found on re:zero
+	[_] HACK deal with connection interruptions (don't freeze as it's now)
 	[_] Simplify dicts format as one file
 	[_] Split todo.otl in multiple docs/*.nou.
   2016-07-02 [X] Move 'js' parts into aeternum
