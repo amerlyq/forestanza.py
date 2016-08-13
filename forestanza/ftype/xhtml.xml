@@ -4,14 +4,11 @@
 <head>
   <title>{title:s} ({author:s})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style type="text/css">
-    {css:s}
+  <style type="text/css" media="screen">
+    @import url('fza/color-theme-wood.css');
+    @import url('fza/color-syntax.css');
   </style>
-  <script type="text/javascript">
-    //<![CDATA[
-    {js:s}
-    //]]>
-  </script>
+  <script src="fza/scrollPos.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 

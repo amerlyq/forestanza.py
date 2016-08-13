@@ -37,9 +37,7 @@ class Exporter:
         self.synxhtml = xhtml.SynGenXHTML(dom)
 
     def dump(self):
-        self.metainfo.update({'css': self.style + ''.join(self.synxhtml.colors()),
-                              'js': self.script,
-                              'legend': ''.join(self.synxhtml.legend()),
+        self.metainfo.update({'legend': ''.join(self.synxhtml.legend()),
                               'sections': ''.join(self.sections)})
         r, s = ESCAPES
         return r.sub(s, self.template.format(**self.metainfo))

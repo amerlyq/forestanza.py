@@ -44,9 +44,10 @@ def expand_pj(path, around=None):
     elif path.startswith(":"):
         return fs.join(CONFIGDIR, path[2:])
     elif path.startswith("@"):
-        if not fs.exists(DSTDIR):
-            makedirs(DSTDIR)
-        return fs.join(DSTDIR, path[2:])
+        path = fs.join(DSTDIR, path[2:])
+        if not fs.exists(fs.dirname(path)):
+            makedirs(fs.dirname(path))
+        return path
 
 
 def import_template(file__, name):

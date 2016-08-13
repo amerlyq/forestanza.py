@@ -8,6 +8,7 @@ from forestanza.opts import make_options
 from forestanza.ftype import fb2, fza, xhtml
 from forestanza.dom import ForestanzaDOM
 from forestanza.syntax.vim import SynGenVim
+from forestanza.syntax.xhtml import SynGenXHTML
 from forestanza.source import web
 from forestanza.process import google
 
@@ -75,6 +76,21 @@ def main(dom, fl):
         io.export_cache(fl.name + t.EXT, lambda: e.dump())
 
 
+def res(dom):
+    print('> color-syntax.css')
+    io.export_cache('fza/color-syntax.css', SynGenXHTML(dom).colors())
+
+    print('> *.css')
+    fnm = io.expand_pj([':', 'forestanza', 'ftype', 'xhtml.css'])
+    with open(fnm) as f:
+        io.export_cache('fza/color-theme-wood.css', f.read())
+
+    print('> *.js')
+    fnm = io.expand_pj([':', 'forestanza', 'ftype', 'xhtml.js'])
+    with open(fnm) as f:
+        io.export_cache('fza/scrollPos.js', f.read())
+
+
 if __name__ == '__main__':
     tbeg_whole = time.time()
     args = make_options().parse_args()
@@ -83,6 +99,7 @@ if __name__ == '__main__':
     print(">>> Forestanza <<<")
     dom = ForestanzaDOM(io.import_yaml('colorscheme'),
                         io.import_yaml('lexems-' + 'jap'))
+    res(dom)
     if args.vimsyntax:
         for k, v in SynGenVim(dom).ddump():
             print('> {}.vim'.format(k))

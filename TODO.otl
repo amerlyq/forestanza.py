@@ -6,7 +6,7 @@ TODO
 	[_] FIXME: dld/tl bugs found on re:zero
 	[_] HACK deal with connection interruptions (don't freeze as it's now)
 	[_] Simplify dicts format as one file
-	[_] Split todo.otl in multiple docs/*.nou.
+	[$] Split todo.otl in multiple docs/*.nou.
   2016-07-02 [X] Move 'js' parts into aeternum
 	Split development in different orphan branches
 	[_] FIX: when specifed direct --url to chapter w/o number -- need process chapter anyway
